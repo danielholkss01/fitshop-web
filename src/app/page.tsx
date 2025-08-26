@@ -1,59 +1,86 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+type Item = {
+  id: string;
+  category: 'top' | 'bottom' | 'shoe' | 'accessory';
+  name: string;
+  price_pennies: number;
+  image_url?: string | null;
+};
 
 type Outfit = {
-  total_price: number; // pennies
-  items: { id: string; category: string; name: string; price_pennies: number; image_url?: string | null }[];
+  total_price: number; // in pennies
+  items: Item[];
 };
+
 type ApiResponse = { outfits: Outfit[] };
 
 const toGBP = (pennies: number) => `£${(pennies / 100).toFixed(2)}`;
 
 export default function Home() {
   const [data, setData] = useState<ApiResponse | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [budget, setBudget] = useState<number | null>(null);
 
+  const API = process.env.NEXT_PUBLIC_API_BASE || '';
+  const canCallApi = API.startsWith('http');
+
   useEffect(() => {
-    const raw = localStorage.getItem('fitshop_profile');
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('fitshop_profile') : null;
     if (raw) {
-      const prof = JSON.parse(raw);
-      if (prof.budget) setBudget(Number(prof.budget));
+      try {
+        const prof = JSON.parse(raw);
+        if (prof?.budget) setBudget(Number(prof.budget));
+      } catch {
+        // ignore parse errors
+      }
     }
   }, []);
 
   async function buildOutfit() {
+    if (!canCallApi) return;
     setLoading(true);
     setError(null);
     setData(null);
     try {
-      const API = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:3001';
-      const profRaw = localStorage.getItem('fitshop_profile');
-      let payload: any = {};
+      const profRaw = typeof window !== 'undefined' ? localStorage.getItem('fitshop_profile') : null;
+      let payload: {
+        topSize?: string;
+        bottomSize?: string;
+        shoeSize?: string;
+        budget?: number;
+      } = {};
+
       if (profRaw) {
         const p = JSON.parse(profRaw);
         payload = {
           topSize: p.topSize,
           bottomSize: p.bottomSize,
           shoeSize: p.shoeSize,
-          budget: p.budget ? Number(p.budget) : undefined
+          budget: p.budget ? Number(p.budget) : undefined,
         };
       }
+
       const res = await fetch(`${API}/outfits/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
+
       if (!res.ok) {
         const text = await res.text();
         throw new Error(`HTTP ${res.status}: ${text || 'Request failed'}`);
       }
+
       const json = (await res.json()) as ApiResponse;
       setData(json);
-    } catch (e: any) {
-      setError(e.message || 'Something went wrong');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -66,21 +93,27 @@ export default function Home() {
         {budget !== null && <div className="text-gray-700">Your budget: £{budget}</div>}
       </div>
 
-      <div className="mb-6 space-x-3">
-        <a href="/profile" className="underline">Profile</a>
+      <p className="mb-4 text-gray-700">
+        <span className="mr-3">
+          <Link href="/profile" className="underline">
+            Profile
+          </Link>
+        </span>
         <button
           onClick={buildOutfit}
-          className="px-5 py-3 rounded-xl bg-black text-white disabled:opacity-60"
-          disabled={loading}
+          className="px-5 py-3 rounded-xl text-white disabled:opacity-50"
+          style={{ background: canCallApi ? 'black' : 'gray' }}
+          disabled={!canCallApi || loading}
+          title={!canCallApi ? 'API not configured yet' : undefined}
         >
           {loading ? 'Styling…' : 'Build My Outfit'}
         </button>
-      </div>
+      </p>
 
       {error && <div className="text-red-600 mb-4">Error: {error}</div>}
 
       {!data && !error && (
-        <div className="text-gray-600">Click “Build My Outfit” to see suggestions.</div>
+        <div className="text-gray-600">Click “Build My Outfit” to see suggestions (when API is online).</div>
       )}
 
       {data && data.outfits.length === 0 && (
@@ -95,11 +128,15 @@ export default function Home() {
               <div className="divide-y">
                 {o.items.map((it) => (
                   <div key={it.id} className="p-4 flex gap-4 items-center">
-                    <img
-                      src={it.image_url || 'https://picsum.photos/seed/placeholder/200/200'}
-                      alt={it.name}
-                      className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
-                    />
+                    <div className="w-20 h-20 relative flex-shrink-0">
+                      <Image
+                        src={it.image_url || 'https://picsum.photos/seed/placeholder/200/200'}
+                        alt={it.name}
+                        fill
+                        sizes="80px"
+                        style={{ objectFit: 'cover', borderRadius: 8 }}
+                      />
+                    </div>
                     <div className="min-w-0">
                       <div className="font-medium truncate">{it.name}</div>
                       <div className="text-sm text-gray-600 capitalize">{it.category}</div>
