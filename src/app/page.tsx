@@ -26,6 +26,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [budget, setBudget] = useState<number | null>(null);
+  const [audience, setAudience] = useState<'men' | 'women'>('men');
 
   const API = process.env.NEXT_PUBLIC_API_BASE || '';
   const canCallApi = API.startsWith('http');
@@ -36,6 +37,7 @@ export default function Home() {
       try {
         const prof = JSON.parse(raw);
         if (prof?.budget) setBudget(Number(prof.budget));
+        if (prof?.audience === 'women') setAudience('women');
       } catch {
         // ignore parse errors
       }
@@ -50,6 +52,7 @@ export default function Home() {
     try {
       const profRaw = typeof window !== 'undefined' ? localStorage.getItem('fitshop_profile') : null;
       let payload: {
+        audience?: 'men' | 'women';
         topSize?: string;
         bottomSize?: string;
         shoeSize?: string;
@@ -59,6 +62,7 @@ export default function Home() {
       if (profRaw) {
         const p = JSON.parse(profRaw);
         payload = {
+          audience: p.audience === 'women' ? 'women' : 'men',
           topSize: p.topSize,
           bottomSize: p.bottomSize,
           shoeSize: p.shoeSize,
@@ -89,7 +93,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Fit&Shop — MVP</h1>
+        <h1 className="text-3xl font-bold">Fit&Shop — {audience === 'women' ? "Women's" : "Men's"} outfits</h1>
         {budget !== null && <div className="text-gray-700">Your budget: £{budget}</div>}
       </div>
 
