@@ -194,59 +194,6 @@
       ]
     },
     {
-      "id": "a1",
-      "category": "accessory",
-      "name": "Grey Scarf",
-      "price_pennies": 2000,
-      "color_family": "grey",
-      "sizes": [
-        "OS"
-      ],
-      "audience": "men",
-      "style_tags": [
-        "relaxed"
-      ],
-      "occasion_tags": [
-        "everyday"
-      ]
-    },
-    {
-      "id": "a2",
-      "category": "accessory",
-      "name": "Navy Cap",
-      "price_pennies": 1500,
-      "color_family": "navy",
-      "sizes": [
-        "OS"
-      ],
-      "audience": "men",
-      "style_tags": [
-        "relaxed",
-        "street"
-      ],
-      "occasion_tags": [
-        "everyday"
-      ]
-    },
-    {
-      "id": "a3",
-      "category": "accessory",
-      "name": "Black Belt",
-      "price_pennies": 1800,
-      "color_family": "black",
-      "sizes": [
-        "OS"
-      ],
-      "audience": "men",
-      "style_tags": [
-        "polished"
-      ],
-      "occasion_tags": [
-        "work",
-        "going-out"
-      ]
-    },
-    {
       "id": "wt1",
       "audience": "women",
       "category": "top",
@@ -445,42 +392,6 @@
       "occasion_tags": [
         "everyday",
         "going-out"
-      ]
-    },
-    {
-      "id": "wa1",
-      "audience": "women",
-      "category": "accessory",
-      "name": "Black Crossbody Bag",
-      "price_pennies": 2200,
-      "color_family": "black",
-      "sizes": [
-        "OS"
-      ],
-      "style_tags": [
-        "polished",
-        "street"
-      ],
-      "occasion_tags": [
-        "going-out",
-        "work"
-      ]
-    },
-    {
-      "id": "wa2",
-      "audience": "women",
-      "category": "accessory",
-      "name": "Grey Scarf",
-      "price_pennies": 1800,
-      "color_family": "grey",
-      "sizes": [
-        "OS"
-      ],
-      "style_tags": [
-        "relaxed"
-      ],
-      "occasion_tags": [
-        "everyday"
       ]
     }
   ]
