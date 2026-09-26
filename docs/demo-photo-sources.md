@@ -15,7 +15,7 @@ These are styling examples, **not** retailer product photos. Names, prices, size
 | `men-white-trainers.jpg` | [13157838](https://www.pexels.com/photo/white-sneakers-on-floor-13157838/) |
 | `men-black-derby.jpg` | [292998](https://www.pexels.com/photo/pair-of-black-leather-derby-shoes-placed-on-brown-surface-292998/) |
 | `men-brown-loafers.jpg` | [8394709](https://www.pexels.com/photo/brown-leather-slip-on-shoes-near-wristwatch-8394709/) |
-| `women-white-shirt.jpg` | [7752615](https://www.pexels.com/photo/woman-in-white-button-down-shirt-and-denim-jeans-7752615/) |
+| `women-white-shirt.jpg` | [22441278](https://www.pexels.com/photo/shirt-on-hanger-on-branch-22441278/) |
 | `women-black-top.jpg` | [9771265](https://www.pexels.com/photo/woman-in-black-ribbed-mock-neck-crop-tank-top-and-blue-denim-jeans-9771265/) |
 | `women-navy-blouse.jpg` | [13895355](https://www.pexels.com/photo/model-posing-in-navy-blue-blouse-13895355/) |
 | `women-black-trousers.jpg` | [6046220](https://www.pexels.com/photo/black-trousers-and-transparent-dress-on-hanger-placed-on-chandelier-6046220/) |
