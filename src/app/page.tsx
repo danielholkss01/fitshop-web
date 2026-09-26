@@ -113,7 +113,7 @@ export default function Home() {
             </div>
             <div className="art-card art-bottom">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/demo/women-white-shirt.jpg" alt="Woman wearing a white shirt and jeans" />
+              <img src="/demo/women-navy-blouse.jpg" alt="Woman wearing a navy blouse" />
               <span>WOMEN’S STYLE</span>
             </div>
             <div className="art-card art-shoe">
@@ -148,7 +148,7 @@ export default function Home() {
             </div>
             <div className="builder-action">
               <div className="sparkle" aria-hidden="true">✳</div>
-              <p>Good outfits start with the right fit.</p>
+              <p>Good outfits start with what you like.</p>
               <button type="button" className="button button-light" onClick={() => void buildOutfits(profile)} disabled={loading}>
                 {loading ? 'Putting looks together…' : 'Build my outfits'} <span aria-hidden="true">→</span>
               </button>
@@ -160,8 +160,8 @@ export default function Home() {
         {result && (
           <section id="results" className="results-section" aria-live="polite">
             <div className="section-heading">
-              <div><span className="eyebrow">02 / YOUR LOOKS</span><h2>Made for your fit and taste.</h2></div>
-              <p>{result.demo ? 'Sample looks' : 'From partner stores'} within your £{profile.budget} budget. Showing {result.outfits.length} of {result.total} looks.</p>
+              <div><span className="eyebrow">02 / YOUR LOOKS</span><h2>Looks for your choices.</h2></div>
+              <p>{result.demo ? `Sample combinations using a £${profile.budget} example budget` : `Partner items within your £${profile.budget} budget`}. Showing {result.outfits.length} of {result.total} looks.</p>
             </div>
             {result.outfits.length === 0 ? (
               <div className="empty-state">
@@ -189,7 +189,7 @@ export default function Home() {
                     </div>
                     <div className="outfit-card-body">
                       <h3>{outfit.style[0].toUpperCase() + outfit.style.slice(1)} look</h3>
-                      <p>{outfit.reason} Matched to your sizes and budget.</p>
+                      <p>{outfit.reason} {result.demo ? 'Style example only; the photo does not show how it fits you.' : 'Available in the size labels you selected. Check the retailer’s fit guide.'}</p>
                       <ul>{outfit.items.map(item => (
                         <li key={item.id}>
                           <div className="product-name">
@@ -212,7 +212,7 @@ export default function Home() {
             {error && <p role="alert" className="error-message">{error} Please try again.</p>}
             <p className="demo-note">
               {result.demo ? (
-                <><strong>Sample looks:</strong> The photos show clothing styles, not products for sale. Sizes and prices are examples for testing the outfit builder. No store links are available yet.</>
+                <><strong>Sample looks:</strong> Photos are style inspiration and may show other clothes on the model. They do not show the exact item, its cut, or how it would fit you. Sizes and prices are examples, and these items are not for sale here.</>
               ) : (
                 <><strong>Partner products:</strong> Check the final size, price, availability and delivery on the retailer’s site before buying. Fit&Shop may earn a commission from store links.</>
               )}

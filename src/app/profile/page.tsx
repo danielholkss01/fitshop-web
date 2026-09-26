@@ -51,7 +51,7 @@ export default function ProfilePage() {
             <div className="profile-art"><ItemArt category="shoe" color="brown" /></div>
             <div className="profile-visual-caption">A whole look, made around your budget.</div>
           </div>
-          <p className="profile-privacy">Your preferences stay in this browser for this demo. No address or account is needed.</p>
+          <p className="profile-privacy">Your preferences stay in this browser for this demo. No address or account is needed. The sample photos are not a virtual try-on.</p>
         </div>
         <form className="profile-form" onSubmit={saveAndBuild}>
           <div className="form-heading"><span className="eyebrow">01 / THE DETAILS</span><h2>Make it yours.</h2><p>You can change these whenever you like.</p></div>
