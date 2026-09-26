@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fit&Shop web
 
-## Getting Started
+An early outfit discovery demo for men and women. Shoppers can set their sizes and total outfit budget, then see up to three coordinated sample looks.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. No API URL or account is required. The site uses its own `POST /api/outfits/generate` route, so the button works on a normal Vercel deployment.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Current scope
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Sizes and budget are saved in the shopper's browser using local storage.
+- Products in `src/lib/catalog.json` are sample data. Garment drawings are illustrative, and prices do not represent live retailer offers.
+- There is no checkout, address collection, retailer inventory, or shopping link yet.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The separate `fitshop-api` repository remains an earlier API prototype. The web demo currently generates outfits locally so it can work before that service is deployed. Before real listings go live, replace the sample catalogue with authorised retailer data and connect the shopping links.
