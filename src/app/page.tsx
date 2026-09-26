@@ -73,12 +73,25 @@ export default function Home() {
               <span className="hero-note">A few details. Three fresh ideas.</span>
             </div>
           </div>
-          <div className="hero-art" aria-label="An illustrated outfit made from a top, trousers and shoes">
+          <div className="hero-art" aria-label="Photographs of men's and women's outfit inspiration">
             <div className="hero-orbit hero-orbit-one" />
             <div className="hero-orbit hero-orbit-two" />
-            <div className="art-card art-top"><ItemArt category="top" color="white" /><span>THE TOP</span></div>
-            <div className="art-card art-bottom"><ItemArt category="bottom" color="navy" /><span>THE FIT</span></div>
-            <div className="art-card art-shoe"><ItemArt category="shoe" color="brown" /><span>THE FINISH</span></div>
+            <div className="art-card art-top">
+              {/* These local photos are styling examples, not products for sale. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/demo/men-white-shirt.jpg" alt="White men's shirt on a hanger" />
+              <span>MEN’S STYLE</span>
+            </div>
+            <div className="art-card art-bottom">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/demo/women-white-shirt.jpg" alt="Woman wearing a white shirt and jeans" />
+              <span>WOMEN’S STYLE</span>
+            </div>
+            <div className="art-card art-shoe">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/demo/men-brown-loafers.jpg" alt="Brown leather loafers" />
+              <span>THE DETAILS</span>
+            </div>
             <div className="art-stamp">YOUR LOOK<br /><strong>MADE EASY</strong></div>
           </div>
         </section>
@@ -131,15 +144,15 @@ export default function Home() {
               <div className="outfit-grid">
                 {result.outfits.map((outfit, index) => (
                   <article className="outfit-card" key={outfit.items.map(item => item.id).join('-')}>
-                    <div className="outfit-card-head"><span>LOOK 0{index + 1}</span><strong>{money(outfit.total_price)}</strong></div>
+                    <div className="outfit-card-head"><span>LOOK 0{index + 1}{result.demo ? ' / DEMO' : ''}</span><strong>{money(outfit.total_price)}</strong></div>
                     <div className="outfit-art-grid">
                       {outfit.items.map(item => (
                         <div className={'outfit-art outfit-art-' + item.category} key={item.id}>
                           <ItemArt category={item.category} color={item.color_family} />
-                          {!result.demo && item.image_url && (
-                            // Partner image hosts vary; the feed importer checks HTTPS URLs.
+                          {item.image_url && (
+                            // Sample photos are local. Partner image hosts vary and importer checks HTTPS URLs.
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={item.image_url} alt={item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
+                            <img src={item.image_url} alt={result.demo ? `Styling example: ${item.name}` : item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
                           )}
                         </div>
                       ))}
@@ -167,7 +180,7 @@ export default function Home() {
             )}
             <p className="demo-note">
               {result.demo ? (
-                <><strong>Sample looks:</strong> These items and prices demonstrate the outfit builder. They are not available to buy here yet.</>
+                <><strong>Sample looks:</strong> The photos show clothing styles, not products for sale. Sizes and prices are examples for testing the outfit builder. No store links are available yet.</>
               ) : (
                 <><strong>Partner products:</strong> Check the final size, price, availability and delivery on the retailer’s site before buying. Fit&Shop may earn a commission from store links.</>
               )}
@@ -184,7 +197,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="site-footer"><span className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></span><span>Outfits, without the overthinking.</span><span>Early product demo</span></footer>
+      <footer className="site-footer"><span className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></span><span>Outfits, without the overthinking.</span><span>Early product demo · Styling photos from <a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer">Pexels</a></span></footer>
     </div>
   );
 }

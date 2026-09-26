@@ -40,7 +40,8 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .hero-orbit-two { width: 420px; height: 420px; top: 93px; left: 20%; }
 .art-card { position: absolute; width: 205px; height: 240px; background: #fbfaf5; box-shadow: 0 14px 38px #29352719; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .art-card .item-art { width: 76%; height: 76%; }
-.art-card span { align-self: flex-start; font-size: 10px; font-weight: 800; letter-spacing: .14em; margin-left: 20px; }
+.art-card img { width: 100%; height: 0; flex: 1; object-fit: cover; }
+.art-card span { align-self: stretch; background: #fbfaf5; font-size: 10px; font-weight: 800; letter-spacing: .14em; padding: 12px 17px; }
 .art-top { top: 63px; left: 17%; transform: rotate(-11deg); }
 .art-bottom { top: 187px; left: 48%; transform: rotate(9deg); }
 .art-shoe { top: 366px; left: 15%; width: 190px; height: 171px; transform: rotate(-5deg); }
@@ -80,6 +81,7 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .outfit-art:nth-child(4) { display: none; }
 .outfit-art .item-art { width: 95%; max-height: 155px; }
 .outfit-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.outfit-art-bottom img { object-position: center 67%; }
 .outfit-card-body { padding: 25px 22px 22px; }
 .outfit-card-body h3 { font-family: Georgia, serif; letter-spacing: -.04em; font-size: 25px; font-weight: 400; margin-bottom: 5px; }
 .outfit-card-body p { font-size: 13px; color: var(--muted); margin-bottom: 23px; }
@@ -103,6 +105,7 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .how-steps p { color: #c4c8bf; font-size: 13px; line-height: 1.6; }
 .site-footer { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 31px 6%; font-size: 12px; color: var(--muted); }
 .site-footer .brand { color: var(--ink); font-size: 24px; }
+.site-footer a { text-decoration: underline; text-underline-offset: 3px; }
 .profile-page { display: grid; grid-template-columns: .9fr 1.1fr; min-height: 690px; }
 .profile-intro { padding: 80px 11% 60px 12%; background: #e9eae1; }
 .profile-intro h1 { font-size: clamp(48px, 4.6vw, 74px); line-height: 1.04; margin: 22px 0; }
