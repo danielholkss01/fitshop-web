@@ -10,10 +10,18 @@ if (!inputPath || inputPath.startsWith('--')) {
 }
 
 const outputPath = resolve('src/lib/partner-products.json');
-const required = ['merchant', 'sku', 'audience', 'category', 'name', 'price_gbp', 'color_family', 'size', 'product_url', 'image_url', 'in_stock'];
+const required = ['merchant', 'sku', 'audience', 'category', 'name', 'price_gbp', 'color_family', 'size', 'style_tags', 'occasion_tags', 'product_url', 'image_url', 'in_stock'];
 const categories = new Set(['top', 'bottom', 'shoe', 'accessory']);
 const colours = new Set(['black', 'white', 'grey', 'navy', 'tan', 'brown', 'blue', 'orange', 'red', 'green', 'yellow', 'purple']);
 const audiences = new Set(['men', 'women']);
+const styles = new Set(['relaxed', 'polished', 'street']);
+const occasions = new Set(['everyday', 'work', 'going-out']);
+
+function parseTags(value, field, allowed, line) {
+  const tags = [...new Set(requireText(value, field, line).toLowerCase().split('|').map(tag => tag.trim()))].sort();
+  if (tags.some(tag => !allowed.has(tag))) throw new Error('Row ' + line + ': invalid ' + field);
+  return tags;
+}
 
 function httpsUrl(value, field, line) {
   try {
@@ -48,6 +56,8 @@ for (const [index, row] of rows.entries()) {
   const category = requireText(row.category, 'category', line).toLowerCase();
   const color_family = requireText(row.color_family, 'color_family', line).toLowerCase();
   const size = requireText(row.size, 'size', line);
+  const style_tags = parseTags(row.style_tags, 'style_tags', styles, line);
+  const occasion_tags = parseTags(row.occasion_tags, 'occasion_tags', occasions, line);
   if (!audiences.has(audience)) throw new Error('Row ' + line + ': audience must be men or women');
   if (!categories.has(category)) throw new Error('Row ' + line + ': invalid category');
   if (!colours.has(color_family)) throw new Error('Row ' + line + ': invalid color_family');
@@ -62,8 +72,8 @@ for (const [index, row] of rows.entries()) {
   const id = merchant + ':' + sku;
   const existing = imported.get(id);
   if (existing) {
-    for (const key of ['name', 'audience', 'category', 'color_family', 'price_pennies', 'product_url', 'image_url']) {
-      if (existing[key] !== ({ name, audience, category, color_family, price_pennies, product_url, image_url })[key]) {
+    for (const key of ['name', 'audience', 'category', 'color_family', 'price_pennies', 'product_url', 'image_url', 'style_tags', 'occasion_tags']) {
+      if (JSON.stringify(existing[key]) !== JSON.stringify(({ name, audience, category, color_family, price_pennies, product_url, image_url, style_tags, occasion_tags })[key])) {
         throw new Error('Row ' + line + ': SKU has inconsistent product details');
       }
     }
@@ -71,7 +81,7 @@ for (const [index, row] of rows.entries()) {
   } else {
     imported.set(id, {
       id, retailer: merchant, audience, category, name, price_pennies,
-      color_family, sizes: [size], product_url, image_url,
+      color_family, sizes: [size], style_tags, occasion_tags, product_url, image_url,
       updated_at: new Date().toISOString(),
     });
   }

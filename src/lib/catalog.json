@@ -14,7 +14,15 @@
         "XL"
       ],
       "audience": "men",
-      "image_url": "/demo/men-white-shirt.jpg"
+      "image_url": "/demo/men-white-shirt.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "t2",
@@ -30,7 +38,15 @@
         "XL"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-tee.jpg"
+      "image_url": "/demo/men-black-tee.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "going-out"
+      ]
     },
     {
       "id": "t3",
@@ -44,7 +60,15 @@
         "L"
       ],
       "audience": "men",
-      "image_url": "/demo/men-navy-polo.jpg"
+      "image_url": "/demo/men-navy-polo.jpg",
+      "style_tags": [
+        "relaxed",
+        "polished"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "work"
+      ]
     },
     {
       "id": "b1",
@@ -59,7 +83,15 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-navy-chinos.jpg"
+      "image_url": "/demo/men-navy-chinos.jpg",
+      "style_tags": [
+        "relaxed",
+        "polished"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "work"
+      ]
     },
     {
       "id": "b2",
@@ -74,7 +106,15 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-jeans.jpg"
+      "image_url": "/demo/men-black-jeans.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "going-out"
+      ]
     },
     {
       "id": "b3",
@@ -89,7 +129,14 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-grey-trousers.jpg"
+      "image_url": "/demo/men-grey-trousers.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "s1",
@@ -103,7 +150,14 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-white-trainers.jpg"
+      "image_url": "/demo/men-white-trainers.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday"
+      ]
     },
     {
       "id": "s2",
@@ -117,7 +171,14 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-derby.jpg"
+      "image_url": "/demo/men-black-derby.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "s3",
@@ -131,7 +192,15 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-brown-loafers.jpg"
+      "image_url": "/demo/men-brown-loafers.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "a1",
@@ -142,7 +211,13 @@
       "sizes": [
         "OS"
       ],
-      "audience": "men"
+      "audience": "men",
+      "style_tags": [
+        "relaxed"
+      ],
+      "occasion_tags": [
+        "everyday"
+      ]
     },
     {
       "id": "a2",
@@ -153,7 +228,14 @@
       "sizes": [
         "OS"
       ],
-      "audience": "men"
+      "audience": "men",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday"
+      ]
     },
     {
       "id": "a3",
@@ -164,7 +246,14 @@
       "sizes": [
         "OS"
       ],
-      "audience": "men"
+      "audience": "men",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "wt1",
@@ -180,7 +269,15 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-white-shirt.jpg"
+      "image_url": "/demo/women-white-shirt.jpg",
+      "style_tags": [
+        "relaxed",
+        "polished"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "work"
+      ]
     },
     {
       "id": "wt2",
@@ -196,7 +293,15 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-black-top.jpg"
+      "image_url": "/demo/women-black-top.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "going-out"
+      ]
     },
     {
       "id": "wt3",
@@ -212,7 +317,14 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-navy-blouse.jpg"
+      "image_url": "/demo/women-navy-blouse.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "wb1",
@@ -228,7 +340,14 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-black-trousers.jpg"
+      "image_url": "/demo/women-black-trousers.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "wb2",
@@ -244,7 +363,15 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-blue-jeans.jpg"
+      "image_url": "/demo/women-blue-jeans.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "going-out"
+      ]
     },
     {
       "id": "wb3",
@@ -260,7 +387,13 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-grey-trousers.jpg"
+      "image_url": "/demo/women-grey-trousers.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work"
+      ]
     },
     {
       "id": "ws1",
@@ -276,7 +409,14 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-white-trainers.jpg"
+      "image_url": "/demo/women-white-trainers.jpg",
+      "style_tags": [
+        "relaxed",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday"
+      ]
     },
     {
       "id": "ws2",
@@ -292,7 +432,14 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-black-loafers.jpg"
+      "image_url": "/demo/women-black-loafers.jpg",
+      "style_tags": [
+        "polished"
+      ],
+      "occasion_tags": [
+        "work",
+        "going-out"
+      ]
     },
     {
       "id": "ws3",
@@ -308,7 +455,15 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-brown-boots.jpg"
+      "image_url": "/demo/women-brown-boots.jpg",
+      "style_tags": [
+        "polished",
+        "street"
+      ],
+      "occasion_tags": [
+        "everyday",
+        "going-out"
+      ]
     },
     {
       "id": "wa1",
@@ -319,6 +474,14 @@
       "color_family": "black",
       "sizes": [
         "OS"
+      ],
+      "style_tags": [
+        "polished",
+        "street"
+      ],
+      "occasion_tags": [
+        "going-out",
+        "work"
       ]
     },
     {
@@ -330,6 +493,12 @@
       "color_family": "grey",
       "sizes": [
         "OS"
+      ],
+      "style_tags": [
+        "relaxed"
+      ],
+      "occasion_tags": [
+        "everyday"
       ]
     }
   ]

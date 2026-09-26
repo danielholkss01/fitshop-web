@@ -1,6 +1,6 @@
 # Fit&Shop web
 
-An early outfit discovery demo for men and women. Shoppers can set their sizes and total outfit budget, then see up to three coordinated sample looks.
+An early outfit discovery demo for men and women. Shoppers can set sizes, budget, style, occasion and colour preferences, then browse the coordinated looks available from the current catalogue. Results arrive six at a time with no fixed outfit cap.
 
 ## Run locally
 
@@ -13,7 +13,7 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 
 ## Current scope
 
-- Sizes and budget are saved in the shopper's browser using local storage.
+- Sizes, budget, and taste preferences are saved in the shopper's browser using local storage. No training or account system is running yet. The first ranking is based on reviewed item tags, compatible colours, sizes and budget.
 - Products in `src/lib/catalog.json` are sample data. [Licensed styling photos](docs/demo-photo-sources.md) make the men’s and women’s demos easier to judge, but they do not depict products that Fit&Shop sells. Sizes and prices do not represent live retailer offers.
 - There is no checkout or address collection. Retailer products and shopping links appear only after an approved partner feed is imported.
 

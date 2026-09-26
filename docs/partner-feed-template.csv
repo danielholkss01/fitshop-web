@@ -1,1 +1,1 @@
-merchant,sku,audience,category,name,price_gbp,color_family,size,product_url,image_url,in_stock
+merchant,sku,audience,category,name,price_gbp,color_family,size,style_tags,occasion_tags,product_url,image_url,in_stock
