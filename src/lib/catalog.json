@@ -1,0 +1,318 @@
+{
+  "products": [
+    {
+      "id": "t1",
+      "category": "top",
+      "name": "White Oxford Shirt",
+      "price_pennies": 4500,
+      "color_family": "white",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "t2",
+      "category": "top",
+      "name": "Black T-Shirt",
+      "price_pennies": 2000,
+      "color_family": "black",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "t3",
+      "category": "top",
+      "name": "Navy Polo",
+      "price_pennies": 3000,
+      "color_family": "navy",
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "b1",
+      "category": "bottom",
+      "name": "Navy Slim Chinos",
+      "price_pennies": 6000,
+      "color_family": "navy",
+      "sizes": [
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "b2",
+      "category": "bottom",
+      "name": "Black Jeans",
+      "price_pennies": 5500,
+      "color_family": "black",
+      "sizes": [
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "b3",
+      "category": "bottom",
+      "name": "Grey Trousers",
+      "price_pennies": 6500,
+      "color_family": "grey",
+      "sizes": [
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "s1",
+      "category": "shoe",
+      "name": "White Trainers",
+      "price_pennies": 7000,
+      "color_family": "white",
+      "sizes": [
+        "UK 8",
+        "UK 9",
+        "UK 10"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "s2",
+      "category": "shoe",
+      "name": "Black Derby",
+      "price_pennies": 8500,
+      "color_family": "black",
+      "sizes": [
+        "UK 8",
+        "UK 9",
+        "UK 10"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "s3",
+      "category": "shoe",
+      "name": "Brown Loafers",
+      "price_pennies": 9000,
+      "color_family": "brown",
+      "sizes": [
+        "UK 8",
+        "UK 9",
+        "UK 10"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "a1",
+      "category": "accessory",
+      "name": "Grey Scarf",
+      "price_pennies": 2000,
+      "color_family": "grey",
+      "sizes": [
+        "OS"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "a2",
+      "category": "accessory",
+      "name": "Navy Cap",
+      "price_pennies": 1500,
+      "color_family": "navy",
+      "sizes": [
+        "OS"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "a3",
+      "category": "accessory",
+      "name": "Black Belt",
+      "price_pennies": 1800,
+      "color_family": "black",
+      "sizes": [
+        "OS"
+      ],
+      "audience": "men"
+    },
+    {
+      "id": "wt1",
+      "audience": "women",
+      "category": "top",
+      "name": "White Cotton Shirt",
+      "price_pennies": 4500,
+      "color_family": "white",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "wt2",
+      "audience": "women",
+      "category": "top",
+      "name": "Black Ribbed Top",
+      "price_pennies": 2500,
+      "color_family": "black",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "wt3",
+      "audience": "women",
+      "category": "top",
+      "name": "Navy Blouse",
+      "price_pennies": 4000,
+      "color_family": "navy",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "wb1",
+      "audience": "women",
+      "category": "bottom",
+      "name": "Black Wide Leg Trousers",
+      "price_pennies": 6000,
+      "color_family": "black",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "wb2",
+      "audience": "women",
+      "category": "bottom",
+      "name": "Blue Straight Leg Jeans",
+      "price_pennies": 5500,
+      "color_family": "blue",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "wb3",
+      "audience": "women",
+      "category": "bottom",
+      "name": "Grey Tailored Trousers",
+      "price_pennies": 6500,
+      "color_family": "grey",
+      "sizes": [
+        "8",
+        "10",
+        "12",
+        "14",
+        "16"
+      ]
+    },
+    {
+      "id": "ws1",
+      "audience": "women",
+      "category": "shoe",
+      "name": "White Trainers",
+      "price_pennies": 7000,
+      "color_family": "white",
+      "sizes": [
+        "UK 4",
+        "UK 5",
+        "UK 6",
+        "UK 7",
+        "UK 8"
+      ]
+    },
+    {
+      "id": "ws2",
+      "audience": "women",
+      "category": "shoe",
+      "name": "Black Loafers",
+      "price_pennies": 8000,
+      "color_family": "black",
+      "sizes": [
+        "UK 4",
+        "UK 5",
+        "UK 6",
+        "UK 7",
+        "UK 8"
+      ]
+    },
+    {
+      "id": "ws3",
+      "audience": "women",
+      "category": "shoe",
+      "name": "Brown Ankle Boots",
+      "price_pennies": 9000,
+      "color_family": "brown",
+      "sizes": [
+        "UK 4",
+        "UK 5",
+        "UK 6",
+        "UK 7",
+        "UK 8"
+      ]
+    },
+    {
+      "id": "wa1",
+      "audience": "women",
+      "category": "accessory",
+      "name": "Black Crossbody Bag",
+      "price_pennies": 2200,
+      "color_family": "black",
+      "sizes": [
+        "OS"
+      ]
+    },
+    {
+      "id": "wa2",
+      "audience": "women",
+      "category": "accessory",
+      "name": "Grey Scarf",
+      "price_pennies": 1800,
+      "color_family": "grey",
+      "sizes": [
+        "OS"
+      ]
+    }
+  ]
+}
