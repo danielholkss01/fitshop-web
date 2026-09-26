@@ -174,35 +174,33 @@ export default function Home() {
               <div className="outfit-grid">
                 {result.outfits.map((outfit, index) => (
                   <article className="outfit-card" key={outfit.items.map(item => item.id).join('-')}>
-                    <div className="outfit-card-head"><span>LOOK {String(index + 1).padStart(2, '0')}{result.demo ? ' / DEMO' : ''}</span><strong>{money(outfit.total_price)}</strong></div>
-                    <div className="outfit-art-grid">
-                      {outfit.items.map(item => (
-                        <div className={'outfit-art outfit-art-' + item.category} key={item.id}>
-                          <ItemArt category={item.category} color={item.color_family} />
-                          {item.image_url && (
-                            // Sample photos are local. Partner image hosts vary and importer checks HTTPS URLs.
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={item.image_url} alt={result.demo ? `Styling example: ${item.name}` : item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                    <div className="outfit-card-head"><span>LOOK {String(index + 1).padStart(2, '0')}{result.demo ? ' / DEMO' : ''}</span><span>{outfit.style.toUpperCase()}</span></div>
                     <div className="outfit-card-body">
                       <h3>{outfit.style[0].toUpperCase() + outfit.style.slice(1)} look</h3>
-                      <p>{outfit.reason} {result.demo ? 'Style example only; the photo does not show how it fits you.' : 'Available in the size labels you selected. Check the retailer’s fit guide.'}</p>
-                      <ul>{outfit.items.map(item => (
-                        <li key={item.id}>
-                          <div className="product-name">
-                            <span>{item.name}</span>
+                      <p>{outfit.reason} {result.demo ? 'Individual styling sketches; no model preview or fit claim.' : 'Check each retailer’s fit guide before buying.'}</p>
+                      <ul className="outfit-items">{outfit.items.map(item => (
+                        <li className="outfit-item" key={item.id}>
+                          <div className="outfit-item-visual">
+                            <ItemArt category={item.category} color={item.color_family} name={item.name} />
+                            {!result.demo && item.image_url && (
+                              // Approved partner images represent the linked product. The illustration stays as a fallback.
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={item.image_url} alt={item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
+                            )}
+                          </div>
+                          <div className="outfit-item-details">
+                            <span className="outfit-item-category">{item.category}</span>
+                            <strong>{item.name}</strong>
                             {!result.demo && item.product_url && (
                               <a href={item.product_url} target="_blank" rel="sponsored noopener noreferrer">
                                 View at {item.retailer} <span aria-hidden="true">↗</span>
                               </a>
                             )}
                           </div>
-                          <strong>{money(item.price_pennies)}</strong>
+                          <strong className="outfit-item-price">{money(item.price_pennies)}</strong>
                         </li>
                       ))}</ul>
+                      <div className="outfit-total"><span>Outfit total</span><strong>{money(outfit.total_price)}</strong></div>
                     </div>
                   </article>
                 ))}
@@ -212,7 +210,7 @@ export default function Home() {
             {error && <p role="alert" className="error-message">{error} Please try again.</p>}
             <p className="demo-note">
               {result.demo ? (
-                <><strong>Sample looks:</strong> Photos are style inspiration and may show other clothes on the model. They do not show the exact item, its cut, or how it would fit you. Sizes and prices are examples, and these items are not for sale here.</>
+                <><strong>Sample looks:</strong> Each item has its own styling sketch and example price. These are not real products, exact garment photos, or a preview on a person. Sizes and prices are illustrative.</>
               ) : (
                 <><strong>Partner products:</strong> Check the final size, price, availability and delivery on the retailer’s site before buying. Fit&Shop may earn a commission from store links.</>
               )}

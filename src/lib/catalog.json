@@ -14,7 +14,6 @@
         "XL"
       ],
       "audience": "men",
-      "image_url": "/demo/men-white-shirt.jpg",
       "style_tags": [
         "polished"
       ],
@@ -38,7 +37,6 @@
         "XL"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-tee.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -60,7 +58,6 @@
         "L"
       ],
       "audience": "men",
-      "image_url": "/demo/men-navy-polo.jpg",
       "style_tags": [
         "relaxed",
         "polished"
@@ -83,7 +80,6 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-navy-chinos.jpg",
       "style_tags": [
         "relaxed",
         "polished"
@@ -106,7 +102,6 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-jeans.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -129,7 +124,6 @@
         "36"
       ],
       "audience": "men",
-      "image_url": "/demo/men-grey-trousers.jpg",
       "style_tags": [
         "polished"
       ],
@@ -150,7 +144,6 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-white-trainers.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -171,7 +164,6 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-black-derby.jpg",
       "style_tags": [
         "polished"
       ],
@@ -192,7 +184,6 @@
         "UK 10"
       ],
       "audience": "men",
-      "image_url": "/demo/men-brown-loafers.jpg",
       "style_tags": [
         "polished"
       ],
@@ -269,7 +260,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-white-shirt.jpg",
       "style_tags": [
         "relaxed",
         "polished"
@@ -293,7 +283,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-black-top.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -317,7 +306,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-navy-blouse.jpg",
       "style_tags": [
         "polished"
       ],
@@ -340,7 +328,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-black-trousers.jpg",
       "style_tags": [
         "polished"
       ],
@@ -363,7 +350,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-blue-jeans.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -387,7 +373,6 @@
         "14",
         "16"
       ],
-      "image_url": "/demo/women-grey-trousers.jpg",
       "style_tags": [
         "polished"
       ],
@@ -409,7 +394,6 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-white-trainers.jpg",
       "style_tags": [
         "relaxed",
         "street"
@@ -432,7 +416,6 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-black-loafers.jpg",
       "style_tags": [
         "polished"
       ],
@@ -455,7 +438,6 @@
         "UK 7",
         "UK 8"
       ],
-      "image_url": "/demo/women-brown-boots.jpg",
       "style_tags": [
         "polished",
         "street"
