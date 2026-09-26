@@ -86,7 +86,7 @@ export default function Home() {
         <section id="build" className="builder-section">
           <div className="section-heading">
             <div><span className="eyebrow">01 / START HERE</span><h2>Let’s put a look together.</h2></div>
-            <p>These suggestions use a small sample catalogue while we connect real stores.</p>
+            <p>Try the sample catalogue now. Partner store products appear here when available.</p>
           </div>
           <div className="builder-panel">
             <div className="builder-main">
@@ -118,7 +118,7 @@ export default function Home() {
           <section id="results" className="results-section" aria-live="polite">
             <div className="section-heading">
               <div><span className="eyebrow">02 / YOUR LOOKS</span><h2>Made for your fit.</h2></div>
-              <p>Each outfit stays within your £{profile.budget} budget.</p>
+              <p>{result.demo ? 'Sample looks' : 'From partner stores'} within your £{profile.budget} budget.</p>
             </div>
             {result.outfits.length === 0 ? (
               <div className="empty-state">
@@ -136,19 +136,42 @@ export default function Home() {
                       {outfit.items.map(item => (
                         <div className={'outfit-art outfit-art-' + item.category} key={item.id}>
                           <ItemArt category={item.category} color={item.color_family} />
+                          {!result.demo && item.image_url && (
+                            // Partner image hosts vary; the feed importer checks HTTPS URLs.
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={item.image_url} alt={item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
+                          )}
                         </div>
                       ))}
                     </div>
                     <div className="outfit-card-body">
                       <h3>{['The everyday edit', 'The easy pairing', 'The considered look'][index]}</h3>
                       <p>Colours that work together, in your size.</p>
-                      <ul>{outfit.items.map(item => <li key={item.id}><span>{item.name}</span><strong>{money(item.price_pennies)}</strong></li>)}</ul>
+                      <ul>{outfit.items.map(item => (
+                        <li key={item.id}>
+                          <div className="product-name">
+                            <span>{item.name}</span>
+                            {!result.demo && item.product_url && (
+                              <a href={item.product_url} target="_blank" rel="sponsored noopener noreferrer">
+                                View at {item.retailer} <span aria-hidden="true">↗</span>
+                              </a>
+                            )}
+                          </div>
+                          <strong>{money(item.price_pennies)}</strong>
+                        </li>
+                      ))}</ul>
                     </div>
                   </article>
                 ))}
               </div>
             )}
-            <p className="demo-note"><strong>Sample looks:</strong> These items and prices demonstrate the outfit builder. They are not available to buy here yet. We’ll add store links when authorised retailer catalogues are connected.</p>
+            <p className="demo-note">
+              {result.demo ? (
+                <><strong>Sample looks:</strong> These items and prices demonstrate the outfit builder. They are not available to buy here yet.</>
+              ) : (
+                <><strong>Partner products:</strong> Check the final size, price, availability and delivery on the retailer’s site before buying. Fit&Shop may earn a commission from store links.</>
+              )}
+            </p>
           </section>
         )}
 
@@ -157,7 +180,7 @@ export default function Home() {
           <div className="how-steps">
             <div><span>01</span><h3>Set your fit</h3><p>Choose who you’re shopping for, then add your sizes and budget.</p></div>
             <div><span>02</span><h3>See complete looks</h3><p>Explore combinations of tops, bottoms and shoes that go together.</p></div>
-            <div><span>03</span><h3>Shop with confidence</h3><p>Retailer links are the next step. For now, try the sample outfit builder.</p></div>
+            <div><span>03</span><h3>Shop with confidence</h3><p>When partner products are available, open each item at its store to purchase.</p></div>
           </div>
         </section>
       </main>
