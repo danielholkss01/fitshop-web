@@ -15,6 +15,10 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 
 - Sizes and budget are saved in the shopper's browser using local storage.
 - Products in `src/lib/catalog.json` are sample data. Garment drawings are illustrative, and prices do not represent live retailer offers.
-- There is no checkout, address collection, retailer inventory, or shopping link yet.
+- There is no checkout or address collection. Retailer products and shopping links appear only after an approved partner feed is imported.
 
-The separate `fitshop-api` repository remains an earlier API prototype. The web demo currently generates outfits locally so it can work before that service is deployed. Before real listings go live, replace the sample catalogue with authorised retailer data and connect the shopping links.
+## Partner products
+
+See [the partner feed guide](docs/partner-feed.md) for the CSV format and import command. When current, approved partner products can form a complete outfit for the shopper's size and budget, the site shows their images and links to the retailers. Otherwise it displays the clearly labelled sample catalogue.
+
+The separate `fitshop-api` repository remains an earlier API prototype. The web app generates outfits on its own server so it works before that service is deployed.

@@ -1,4 +1,5 @@
 import catalog from './catalog.json';
+import partnerCatalog from './partner-products.json';
 import type { Audience, Profile } from './profile';
 
 export type Category = 'top' | 'bottom' | 'shoe' | 'accessory';
@@ -10,10 +11,23 @@ export type Product = {
   price_pennies: number;
   color_family: string;
   sizes: string[];
+  retailer?: string;
+  product_url?: string;
+  image_url?: string;
+  updated_at?: string;
 };
 export type Outfit = { total_price: number; items: Product[] };
 
-const products = catalog.products as Product[];
+const sampleProducts = catalog.products as Product[];
+const partnerProducts = partnerCatalog.products as Product[];
+const maxFeedAge = 7 * 24 * 60 * 60 * 1000;
+
+export function currentPartnerProducts(): Product[] {
+  return partnerProducts.filter(product => {
+    const age = product.updated_at ? Date.now() - Date.parse(product.updated_at) : NaN;
+    return Boolean(product.product_url && product.image_url && age >= 0 && age < maxFeedAge);
+  });
+}
 const neutral = new Set(['black', 'white', 'grey', 'navy', 'tan', 'brown']);
 const complements: Record<string, string> = {
   blue: 'orange',
@@ -28,7 +42,7 @@ function worksWith(a: string, b: string) {
   return neutral.has(a) || neutral.has(b) || a === b || complements[a] === b;
 }
 
-export function generateOutfits(profile: Profile): Outfit[] {
+export function generateOutfits(profile: Profile, products: Product[] = sampleProducts): Outfit[] {
   const budgetPennies = Math.round(profile.budget * 100);
   const selection = products.filter(product => product.audience === profile.audience);
   const tops = selection.filter(product => product.category === 'top' && product.sizes.includes(profile.topSize));

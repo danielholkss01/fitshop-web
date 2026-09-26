@@ -74,17 +74,20 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .outfit-card-head span { color: var(--accent); letter-spacing: .14em; font-size: 10px; font-weight: 800; }
 .outfit-card-head strong { font-size: 19px; }
 .outfit-art-grid { height: 260px; display: grid; grid-template-columns: 1fr 1fr 1fr; background: #f1f0e9; gap: 2px; }
-.outfit-art { display: grid; place-items: center; background: #e7e8df; }
+.outfit-art { display: grid; place-items: center; background: #e7e8df; position: relative; overflow: hidden; }
 .outfit-art:nth-child(2) { background: #ebe8e1; }
 .outfit-art:nth-child(3) { background: #e5e5dc; }
 .outfit-art:nth-child(4) { display: none; }
 .outfit-art .item-art { width: 95%; max-height: 155px; }
+.outfit-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .outfit-card-body { padding: 25px 22px 22px; }
 .outfit-card-body h3 { font-family: Georgia, serif; letter-spacing: -.04em; font-size: 25px; font-weight: 400; margin-bottom: 5px; }
 .outfit-card-body p { font-size: 13px; color: var(--muted); margin-bottom: 23px; }
 .outfit-card-body ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
 .outfit-card-body li { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; font-size: 12px; }
 .outfit-card-body li strong { white-space: nowrap; }
+.product-name { display: flex; flex-direction: column; gap: 5px; }
+.product-name a { color: #a64527; text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
 .demo-note { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 26px 0 0; max-width: 700px; }
 .empty-state { text-align: center; padding: 55px 20px; background: #fff; border-radius: 14px; }
 .empty-state > span { font-size: 38px; color: var(--accent); }

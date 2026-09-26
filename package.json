@@ -6,9 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "import:partner": "node scripts/import-partner-feed.mjs"
   },
   "dependencies": {
+    "csv-parse": "^6.2.1",
     "next": "15.5.26",
     "react": "19.1.0",
     "react-dom": "19.1.0"
