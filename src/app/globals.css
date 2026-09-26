@@ -63,6 +63,7 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .fit-summary > div:first-child { border-left: 0; padding-left: 0; }
 .fit-summary span { display: block; font-size: 10px; color: var(--muted); letter-spacing: .12em; font-weight: 800; margin-bottom: 7px; }
 .fit-summary strong { font-size: 19px; }
+.taste-summary { color: var(--muted); font-size: 12px; line-height: 1.5; margin: -7px 0 18px; }
 .text-link { font-size: 13px; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
 .builder-action { background: #c65c39; color: #fff; padding: 39px 35px; display: flex; flex-direction: column; justify-content: space-between; }
 .sparkle { font-size: 42px; line-height: 1; }
@@ -91,6 +92,7 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .product-name { display: flex; flex-direction: column; gap: 5px; }
 .product-name a { color: #a64527; text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
 .demo-note { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 26px 0 0; max-width: 700px; }
+.more-looks { text-align: center; margin-top: 31px; }
 .empty-state { text-align: center; padding: 55px 20px; background: #fff; border-radius: 14px; }
 .empty-state > span { font-size: 38px; color: var(--accent); }
 .empty-state h3 { font: 32px Georgia, serif; margin: 14px 0; }
@@ -130,6 +132,14 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .currency-input > span { font-weight: 800; }
 .currency-input input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); }
 .form-hint, .form-footnote { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.preference-group { border: 0; padding: 0; margin: 0 0 27px; min-width: 0; }
+.preference-group > p { color: var(--muted); font-size: 12px; line-height: 1.5; margin: -5px 0 13px; }
+.choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.choice-grid button, .color-choices button { background: #f8f8f4; border: 1px solid #cdd0c7; border-radius: 9px; color: var(--ink); padding: 12px 13px; text-align: left; font-size: 13px; font-weight: 700; }
+.choice-grid button.selected, .color-choices button.selected { background: #29332d; border-color: #29332d; color: #fff; }
+.color-preference { margin: 0 0 26px; }
+.color-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.color-choices button { padding: 9px 12px; border-radius: 100px; }
 .form-submit { width: 100%; margin-top: 14px; }
 .form-footnote { text-align: center; margin: 14px 0 0; }
 @media (max-width: 950px) {

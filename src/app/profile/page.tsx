@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import ItemArt from '../item-art';
-import { defaultProfile, loadProfile, profileFor, sizes, type Audience, type Profile } from '@/lib/profile';
+import { colors, defaultProfile, loadProfile, occasions, profileFor, sizes, styles, type Audience, type Color, type Profile } from '@/lib/profile';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile>(defaultProfile);
@@ -12,8 +12,15 @@ export default function ProfilePage() {
   useEffect(() => setProfile(loadProfile()), []);
 
   function chooseAudience(audience: Audience) {
-    setProfile(profileFor(audience, profile.budget));
+    setProfile(profileFor(audience, profile.budget, profile));
     setError('');
+  }
+
+  function toggleAvoidedColor(color: Color) {
+    const avoidedColors = profile.avoidedColors.includes(color)
+      ? profile.avoidedColors.filter(value => value !== color)
+      : [...profile.avoidedColors, color];
+    setProfile({ ...profile, avoidedColors, preferredColor: avoidedColors.includes(profile.preferredColor as Color) ? 'any' : profile.preferredColor });
   }
 
   function saveAndBuild(event: FormEvent<HTMLFormElement>) {
@@ -37,7 +44,7 @@ export default function ProfilePage() {
         <div className="profile-intro">
           <span className="eyebrow"><span className="eyebrow-line" /> YOUR FIT PROFILE</span>
           <h1>Great style starts <em>with you.</em></h1>
-          <p>Tell us what fits and what you want to spend. We’ll use it to put together looks you can actually picture wearing.</p>
+          <p>Tell us what fits, what you like and what you want to spend. We’ll use it to put together looks you can actually picture wearing.</p>
           <div className="profile-visual">
             <div className="profile-art"><ItemArt category="top" color="white" /></div>
             <div className="profile-art"><ItemArt category="bottom" color="navy" /></div>
@@ -65,6 +72,30 @@ export default function ProfilePage() {
             <label className="form-group"><span>Total outfit budget</span><span className="currency-input"><span>£</span><input type="number" min="1" max="10000" step="1" value={profile.budget} onChange={e => setProfile({ ...profile, budget: Number(e.target.value) })} required /></span></label>
           </div>
           <p className="form-hint">This budget covers the complete outfit, not each individual item.</p>
+          <div className="form-divider" />
+          <fieldset className="preference-group">
+            <legend className="field-label">YOUR STYLE</legend>
+            <p>Choose the direction you’d reach for. You can change it later.</p>
+            <div className="choice-grid">
+              {styles.map(option => <button key={option.value} type="button" aria-pressed={profile.style === option.value} className={profile.style === option.value ? 'selected' : ''} onClick={() => setProfile({ ...profile, style: option.value })}>{option.label}</button>)}
+            </div>
+          </fieldset>
+          <fieldset className="preference-group">
+            <legend className="field-label">DRESSING FOR</legend>
+            <div className="choice-grid">
+              {occasions.map(option => <button key={option.value} type="button" aria-pressed={profile.occasion === option.value} className={profile.occasion === option.value ? 'selected' : ''} onClick={() => setProfile({ ...profile, occasion: option.value })}>{option.label}</button>)}
+            </div>
+          </fieldset>
+          <label className="form-group color-preference"><span>A colour you like</span><select value={profile.preferredColor} onChange={e => setProfile({ ...profile, preferredColor: e.target.value as Color | 'any', avoidedColors: profile.avoidedColors.filter(color => color !== e.target.value) })}>
+            <option value="any">No preference</option>
+            {colors.map(color => <option key={color} value={color}>{color[0].toUpperCase() + color.slice(1)}</option>)}
+          </select></label>
+          <fieldset className="preference-group">
+            <legend className="field-label">COLOURS TO SKIP</legend>
+            <div className="color-choices">
+              {colors.map(color => <button key={color} type="button" aria-pressed={profile.avoidedColors.includes(color)} className={profile.avoidedColors.includes(color) ? 'selected' : ''} onClick={() => toggleAvoidedColor(color)}>{color[0].toUpperCase() + color.slice(1)}</button>)}
+            </div>
+          </fieldset>
           {error && <p className="error-message" role="alert">{error}</p>}
           <button className="button button-dark form-submit" type="submit">Save and see my outfits <span aria-hidden="true">→</span></button>
           <p className="form-footnote">You’ll see sample looks first. Shopping links will follow when stores join Fit&Shop.</p>

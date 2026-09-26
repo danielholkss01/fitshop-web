@@ -19,9 +19,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Enter a budget between £1 and £10,000' }, { status: 400 });
   }
 
-  const partnerOutfits = generateOutfits(profile, currentPartnerProducts());
-  if (partnerOutfits.length) {
-    return NextResponse.json({ outfits: partnerOutfits, demo: false });
+  const page = (input as { page?: unknown }).page ?? 0;
+  if (!Number.isSafeInteger(page) || Number(page) < 0) {
+    return NextResponse.json({ error: 'Invalid page' }, { status: 400 });
   }
-  return NextResponse.json({ outfits: generateOutfits(profile), demo: true });
+
+  const partnerOutfits = generateOutfits(profile, currentPartnerProducts());
+  const demo = partnerOutfits.length === 0;
+  const outfits = demo ? generateOutfits(profile) : partnerOutfits;
+  const pageSize = 6;
+  const start = Number(page) * pageSize;
+  return NextResponse.json({
+    outfits: outfits.slice(start, start + pageSize),
+    demo,
+    total: outfits.length,
+    nextPage: start + pageSize < outfits.length ? Number(page) + 1 : null,
+  });
 }
