@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateOutfits } from '@/lib/outfits';
+import { currentPartnerProducts, generateOutfits } from '@/lib/outfits';
 import { normalizeProfile } from '@/lib/profile';
 
 export async function POST(request: Request) {
@@ -19,5 +19,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Enter a budget between £1 and £10,000' }, { status: 400 });
   }
 
+  const partnerOutfits = generateOutfits(profile, currentPartnerProducts());
+  if (partnerOutfits.length) {
+    return NextResponse.json({ outfits: partnerOutfits, demo: false });
+  }
   return NextResponse.json({ outfits: generateOutfits(profile), demo: true });
 }
