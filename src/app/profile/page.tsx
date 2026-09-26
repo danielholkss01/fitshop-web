@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import ItemArt from '../item-art';
 import { colors, defaultProfile, loadProfile, occasions, profileFor, sizes, styles, type Audience, type Color, type Profile } from '@/lib/profile';
 
 export default function ProfilePage() {
@@ -46,10 +45,9 @@ export default function ProfilePage() {
           <h1>Great style starts <em>with you.</em></h1>
           <p>Tell us what fits, what you like and what you want to spend. We’ll use it to put together looks you can actually picture wearing.</p>
           <div className="profile-visual">
-            <div className="profile-art"><ItemArt category="top" color="white" /></div>
-            <div className="profile-art"><ItemArt category="bottom" color="navy" /></div>
-            <div className="profile-art"><ItemArt category="shoe" color="brown" /></div>
-            <div className="profile-visual-caption">A whole look, made around your budget.</div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={profile.audience === 'men' ? '/demo/looks/t2-b2-s1.webp' : '/demo/looks/wt1-wb2-ws1.webp'} alt={profile.audience === 'men' ? 'Generated man wearing a black T-shirt, jeans and trainers' : 'Generated woman wearing a white shirt, jeans and trainers'} />
+            <div className="profile-visual-caption">A complete sample look.</div>
           </div>
           <p className="profile-privacy">Your preferences stay in this browser for this demo. No address or account is needed. The sample photos are not a virtual try-on.</p>
         </div>

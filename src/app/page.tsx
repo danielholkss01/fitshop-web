@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import ItemArt from './item-art';
 import type { Outfit } from '@/lib/outfits';
+import { demoLookImage } from '@/lib/demo-look-images';
 import { defaultProfile, loadProfile, profileFor, type Audience, type Profile } from '@/lib/profile';
 
 type Response = { outfits: Outfit[]; demo: boolean; total: number; nextPage: number | null };
@@ -102,24 +102,18 @@ export default function Home() {
               <span className="hero-note">A few details. Looks for your taste.</span>
             </div>
           </div>
-          <div className="hero-art" aria-label="Photographs of men's and women's outfit inspiration">
+          <div className="hero-art" aria-label="Generated examples of men's and women's complete outfits">
             <div className="hero-orbit hero-orbit-one" />
             <div className="hero-orbit hero-orbit-two" />
             <div className="art-card art-top">
-              {/* These local photos are styling examples, not products for sale. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/demo/men-white-shirt.jpg" alt="White men's shirt on a hanger" />
-              <span>MEN’S STYLE</span>
+              <img src="/demo/looks/t2-b2-s1.webp" alt="Man wearing a black T-shirt, black jeans and white trainers" />
+              <span>MEN’S SAMPLE LOOK</span>
             </div>
             <div className="art-card art-bottom">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/demo/women-navy-blouse.jpg" alt="Woman wearing a navy blouse" />
-              <span>WOMEN’S STYLE</span>
-            </div>
-            <div className="art-card art-shoe">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/demo/men-brown-loafers.jpg" alt="Brown leather loafers" />
-              <span>THE DETAILS</span>
+              <img src="/demo/looks/wt1-wb2-ws1.webp" alt="Woman wearing a white shirt, blue straight-leg jeans and white trainers" />
+              <span>WOMEN’S SAMPLE LOOK</span>
             </div>
             <div className="art-stamp">YOUR LOOK<br /><strong>MADE EASY</strong></div>
           </div>
@@ -175,15 +169,26 @@ export default function Home() {
                 {result.outfits.map((outfit, index) => (
                   <article className="outfit-card" key={outfit.items.map(item => item.id).join('-')}>
                     <div className="outfit-card-head"><span>LOOK {String(index + 1).padStart(2, '0')}{result.demo ? ' / DEMO' : ''}</span><span>{outfit.style.toUpperCase()}</span></div>
+                    {result.demo && demoLookImage(outfit.id) && (
+                      <div className="outfit-model">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={demoLookImage(outfit.id)} alt={`Generated model wearing ${outfit.items.map(item => item.name).join(', ')}`} loading="lazy" />
+                        <span>Generated styling example</span>
+                      </div>
+                    )}
                     <div className="outfit-card-body">
                       <h3>{outfit.style[0].toUpperCase() + outfit.style.slice(1)} look</h3>
-                      <p>{outfit.reason} {result.demo ? 'Individual styling sketches; no model preview or fit claim.' : 'Check each retailer’s fit guide before buying.'}</p>
+                      <p>{outfit.reason} {result.demo ? 'The details below come from this same example image.' : 'Check each retailer’s fit guide before buying.'}</p>
                       <ul className="outfit-items">{outfit.items.map(item => (
                         <li className="outfit-item" key={item.id}>
-                          <div className="outfit-item-visual">
-                            <ItemArt category={item.category} color={item.color_family} name={item.name} />
+                          <div className={`outfit-item-visual${result.demo ? ' demo-crop' : ''}`}>
+                            {result.demo && demoLookImage(outfit.id) ? (
+                              // A detail crop from the exact full-body photo above.
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img className={`crop-${item.category}`} src={demoLookImage(outfit.id)} alt={`Detail of ${item.name} in this look`} loading="lazy" />
+                            ) : <span className="image-placeholder">Image unavailable</span>}
                             {!result.demo && item.image_url && (
-                              // Approved partner images represent the linked product. The illustration stays as a fallback.
+                              // Approved partner images represent the linked product.
                               // eslint-disable-next-line @next/next/no-img-element
                               <img src={item.image_url} alt={item.name} loading="lazy" referrerPolicy="no-referrer" onError={event => { event.currentTarget.style.display = 'none'; }} />
                             )}
@@ -210,7 +215,7 @@ export default function Home() {
             {error && <p role="alert" className="error-message">{error} Please try again.</p>}
             <p className="demo-note">
               {result.demo ? (
-                <><strong>Sample looks:</strong> Each item has its own styling sketch and example price. These are not real products, exact garment photos, or a preview on a person. Sizes and prices are illustrative.</>
+                <><strong>Sample looks:</strong> The model images are generated styling examples of the listed combinations. Detail crops come from the same image. These are not retailer product photos, a preview of your own body, or a guarantee of fit. Sizes and prices are illustrative.</>
               ) : (
                 <><strong>Partner products:</strong> Check the final size, price, availability and delivery on the retailer’s site before buying. Fit&Shop may earn a commission from store links.</>
               )}
@@ -227,7 +232,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="site-footer"><span className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></span><span>Outfits, without the overthinking.</span><span>Early product demo · Styling photos from <a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer">Pexels</a></span></footer>
+      <footer className="site-footer"><span className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></span><span>Outfits, without the overthinking.</span><span>Early product demo · Generated sample looks</span></footer>
     </div>
   );
 }
