@@ -1,158 +1,167 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import ItemArt from './item-art';
+import type { Outfit } from '@/lib/outfits';
+import { defaultProfile, loadProfile, profileFor, type Audience, type Profile } from '@/lib/profile';
 
-type Item = {
-  id: string;
-  category: 'top' | 'bottom' | 'shoe' | 'accessory';
-  name: string;
-  price_pennies: number;
-  image_url?: string | null;
-};
-
-type Outfit = {
-  total_price: number; // in pennies
-  items: Item[];
-};
-
-type ApiResponse = { outfits: Outfit[] };
-
-const toGBP = (pennies: number) => `£${(pennies / 100).toFixed(2)}`;
+type Response = { outfits: Outfit[]; demo: true };
+const money = (pennies: number) => '£' + (pennies / 100).toFixed(2);
 
 export default function Home() {
-  const [data, setData] = useState<ApiResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [budget, setBudget] = useState<number | null>(null);
-  const [audience, setAudience] = useState<'men' | 'women'>('men');
+  const [profile, setProfile] = useState<Profile>(defaultProfile);
+  const [result, setResult] = useState<Response | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const API = process.env.NEXT_PUBLIC_API_BASE || '';
-  const canCallApi = API.startsWith('http');
-
-  useEffect(() => {
-    const raw = typeof window !== 'undefined' ? localStorage.getItem('fitshop_profile') : null;
-    if (raw) {
-      try {
-        const prof = JSON.parse(raw);
-        if (prof?.budget) setBudget(Number(prof.budget));
-        if (prof?.audience === 'women') setAudience('women');
-      } catch {
-        // ignore parse errors
-      }
-    }
-  }, []);
-
-  async function buildOutfit() {
-    if (!canCallApi) return;
+  const buildOutfits = useCallback(async (selected: Profile) => {
     setLoading(true);
-    setError(null);
-    setData(null);
+    setError('');
+    setResult(null);
     try {
-      const profRaw = typeof window !== 'undefined' ? localStorage.getItem('fitshop_profile') : null;
-      let payload: {
-        audience?: 'men' | 'women';
-        topSize?: string;
-        bottomSize?: string;
-        shoeSize?: string;
-        budget?: number;
-      } = {};
-
-      if (profRaw) {
-        const p = JSON.parse(profRaw);
-        payload = {
-          audience: p.audience === 'women' ? 'women' : 'men',
-          topSize: p.topSize,
-          bottomSize: p.bottomSize,
-          shoeSize: p.shoeSize,
-          budget: p.budget ? Number(p.budget) : undefined,
-        };
-      }
-
-      const res = await fetch(`${API}/outfits/generate`, {
+      const response = await fetch('/api/outfits/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(selected),
       });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`HTTP ${res.status}: ${text || 'Request failed'}`);
-      }
-
-      const json = (await res.json()) as ApiResponse;
-      setData(json);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Unable to build outfits right now');
+      setResult(data as Response);
+      window.setTimeout(() => document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' }), 50);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Unable to build outfits right now');
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    const saved = loadProfile();
+    setProfile(saved);
+    if (new URLSearchParams(window.location.search).get('generate') === '1') {
+      window.history.replaceState({}, '', '/');
+      void buildOutfits(saved);
+    }
+  }, [buildOutfits]);
+
+  function chooseAudience(audience: Audience) {
+    const next = profileFor(audience, profile.budget);
+    setProfile(next);
+    setResult(null);
+    localStorage.setItem('fitshop_profile', JSON.stringify(next));
   }
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Fit&Shop — {audience === 'women' ? "Women's" : "Men's"} outfits</h1>
-        {budget !== null && <div className="text-gray-700">Your budget: £{budget}</div>}
-      </div>
+    <div className="site-shell">
+      <header className="site-header">
+        <Link href="/" className="brand" aria-label="Fit and Shop home">fit<span>&</span>shop<span className="brand-dot">.</span></Link>
+        <nav aria-label="Main navigation">
+          <a href="#how-it-works">How it works</a>
+          <Link href="/profile" className="nav-profile">Your fit <span aria-hidden="true">↗</span></Link>
+        </nav>
+      </header>
 
-      <p className="mb-4 text-gray-700">
-        <span className="mr-3">
-          <Link href="/profile" className="underline">
-            Profile
-          </Link>
-        </span>
-        <button
-          onClick={buildOutfit}
-          className="px-5 py-3 rounded-xl text-white disabled:opacity-50"
-          style={{ background: canCallApi ? 'black' : 'gray' }}
-          disabled={!canCallApi || loading}
-          title={!canCallApi ? 'API not configured yet' : undefined}
-        >
-          {loading ? 'Styling…' : 'Build My Outfit'}
-        </button>
-      </p>
+      <main>
+        <section className="hero">
+          <div className="hero-copy">
+            <span className="eyebrow"><span className="eyebrow-line" /> THE OUTFIT EDIT</span>
+            <h1>Get dressed without <em>the guesswork.</em></h1>
+            <p>Tell us your sizes and budget. We’ll put together complete looks that work together, so you can spend less time deciding what to wear.</p>
+            <div className="hero-actions">
+              <a href="#build" className="button button-dark">Find my outfits <span aria-hidden="true">↗</span></a>
+              <span className="hero-note">A few details. Three fresh ideas.</span>
+            </div>
+          </div>
+          <div className="hero-art" aria-label="An illustrated outfit made from a top, trousers and shoes">
+            <div className="hero-orbit hero-orbit-one" />
+            <div className="hero-orbit hero-orbit-two" />
+            <div className="art-card art-top"><ItemArt category="top" color="white" /><span>THE TOP</span></div>
+            <div className="art-card art-bottom"><ItemArt category="bottom" color="navy" /><span>THE FIT</span></div>
+            <div className="art-card art-shoe"><ItemArt category="shoe" color="brown" /><span>THE FINISH</span></div>
+            <div className="art-stamp">YOUR LOOK<br /><strong>MADE EASY</strong></div>
+          </div>
+        </section>
 
-      {error && <div className="text-red-600 mb-4">Error: {error}</div>}
+        <section id="build" className="builder-section">
+          <div className="section-heading">
+            <div><span className="eyebrow">01 / START HERE</span><h2>Let’s put a look together.</h2></div>
+            <p>These suggestions use a small sample catalogue while we connect real stores.</p>
+          </div>
+          <div className="builder-panel">
+            <div className="builder-main">
+              <span className="field-label">WHO ARE WE STYLING?</span>
+              <div className="audience-switch" role="group" aria-label="Shopping for">
+                <button type="button" className={profile.audience === 'men' ? 'selected' : ''} aria-pressed={profile.audience === 'men'} onClick={() => chooseAudience('men')}>Men</button>
+                <button type="button" className={profile.audience === 'women' ? 'selected' : ''} aria-pressed={profile.audience === 'women'} onClick={() => chooseAudience('women')}>Women</button>
+              </div>
+              <div className="fit-summary">
+                <div><span>TOP</span><strong>{profile.topSize}</strong></div>
+                <div><span>BOTTOM</span><strong>{profile.bottomSize}</strong></div>
+                <div><span>SHOE</span><strong>{profile.shoeSize}</strong></div>
+                <div><span>BUDGET</span><strong>£{profile.budget}</strong></div>
+              </div>
+              <Link href="/profile" className="text-link">Change sizes or budget <span aria-hidden="true">↗</span></Link>
+            </div>
+            <div className="builder-action">
+              <div className="sparkle" aria-hidden="true">✳</div>
+              <p>Good outfits start with the right fit.</p>
+              <button type="button" className="button button-light" onClick={() => void buildOutfits(profile)} disabled={loading}>
+                {loading ? 'Putting looks together…' : 'Build my outfits'} <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+          {error && <p role="alert" className="error-message">{error} Please try again.</p>}
+        </section>
 
-      {!data && !error && (
-        <div className="text-gray-600">Click “Build My Outfit” to see suggestions (when API is online).</div>
-      )}
-
-      {data && data.outfits.length === 0 && (
-        <div className="text-gray-600">No outfits fit your sizes/budget. Try increasing your budget or adjusting sizes.</div>
-      )}
-
-      {data && data.outfits.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {data.outfits.map((o, idx) => (
-            <div key={idx} className="border rounded-xl overflow-hidden shadow-sm">
-              <div className="p-4 font-semibold">Outfit #{idx + 1} — Total {toGBP(o.total_price)}</div>
-              <div className="divide-y">
-                {o.items.map((it) => (
-                  <div key={it.id} className="p-4 flex gap-4 items-center">
-                    <div className="w-20 h-20 relative flex-shrink-0">
-                      <Image
-                        src={it.image_url || 'https://picsum.photos/seed/placeholder/200/200'}
-                        alt={it.name}
-                        fill
-                        sizes="80px"
-                        style={{ objectFit: 'cover', borderRadius: 8 }}
-                      />
+        {result && (
+          <section id="results" className="results-section" aria-live="polite">
+            <div className="section-heading">
+              <div><span className="eyebrow">02 / YOUR LOOKS</span><h2>Made for your fit.</h2></div>
+              <p>Each outfit stays within your £{profile.budget} budget.</p>
+            </div>
+            {result.outfits.length === 0 ? (
+              <div className="empty-state">
+                <span aria-hidden="true">✳</span>
+                <h3>No complete looks within this budget yet.</h3>
+                <p>Try increasing your budget or changing your sizes to see more sample combinations.</p>
+                <Link href="/profile" className="button button-dark">Adjust my profile <span aria-hidden="true">↗</span></Link>
+              </div>
+            ) : (
+              <div className="outfit-grid">
+                {result.outfits.map((outfit, index) => (
+                  <article className="outfit-card" key={outfit.items.map(item => item.id).join('-')}>
+                    <div className="outfit-card-head"><span>LOOK 0{index + 1}</span><strong>{money(outfit.total_price)}</strong></div>
+                    <div className="outfit-art-grid">
+                      {outfit.items.map(item => (
+                        <div className={'outfit-art outfit-art-' + item.category} key={item.id}>
+                          <ItemArt category={item.category} color={item.color_family} />
+                        </div>
+                      ))}
                     </div>
-                    <div className="min-w-0">
-                      <div className="font-medium truncate">{it.name}</div>
-                      <div className="text-sm text-gray-600 capitalize">{it.category}</div>
+                    <div className="outfit-card-body">
+                      <h3>{['The everyday edit', 'The easy pairing', 'The considered look'][index]}</h3>
+                      <p>Colours that work together, in your size.</p>
+                      <ul>{outfit.items.map(item => <li key={item.id}><span>{item.name}</span><strong>{money(item.price_pennies)}</strong></li>)}</ul>
                     </div>
-                    <div className="ml-auto font-semibold">{toGBP(it.price_pennies)}</div>
-                  </div>
+                  </article>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </main>
+            )}
+            <p className="demo-note"><strong>Sample looks:</strong> These items and prices demonstrate the outfit builder. They are not available to buy here yet. We’ll add store links when authorised retailer catalogues are connected.</p>
+          </section>
+        )}
+
+        <section id="how-it-works" className="how-section">
+          <div><span className="eyebrow">A SIMPLER WAY TO SHOP</span><h2>Less scrolling.<br /><em>More wearing.</em></h2></div>
+          <div className="how-steps">
+            <div><span>01</span><h3>Set your fit</h3><p>Choose who you’re shopping for, then add your sizes and budget.</p></div>
+            <div><span>02</span><h3>See complete looks</h3><p>Explore combinations of tops, bottoms and shoes that go together.</p></div>
+            <div><span>03</span><h3>Shop with confidence</h3><p>Retailer links are the next step. For now, try the sample outfit builder.</p></div>
+          </div>
+        </section>
+      </main>
+      <footer className="site-footer"><span className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></span><span>Outfits, without the overthinking.</span><span>Early product demo</span></footer>
+    </div>
   );
 }
