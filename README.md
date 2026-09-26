@@ -14,7 +14,7 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 ## Current scope
 
 - Sizes and budget are saved in the shopper's browser using local storage.
-- Products in `src/lib/catalog.json` are sample data. Garment drawings are illustrative, and prices do not represent live retailer offers.
+- Products in `src/lib/catalog.json` are sample data. [Licensed styling photos](docs/demo-photo-sources.md) make the men’s and women’s demos easier to judge, but they do not depict products that Fit&Shop sells. Sizes and prices do not represent live retailer offers.
 - There is no checkout or address collection. Retailer products and shopping links appear only after an approved partner feed is imported.
 
 ## Partner products

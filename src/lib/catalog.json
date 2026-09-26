@@ -13,7 +13,8 @@
         "L",
         "XL"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-white-shirt.jpg"
     },
     {
       "id": "t2",
@@ -28,7 +29,8 @@
         "L",
         "XL"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-black-tee.jpg"
     },
     {
       "id": "t3",
@@ -41,7 +43,8 @@
         "M",
         "L"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-navy-polo.jpg"
     },
     {
       "id": "b1",
@@ -55,7 +58,8 @@
         "34",
         "36"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-navy-chinos.jpg"
     },
     {
       "id": "b2",
@@ -69,7 +73,8 @@
         "34",
         "36"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-black-jeans.jpg"
     },
     {
       "id": "b3",
@@ -83,7 +88,8 @@
         "34",
         "36"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-grey-trousers.jpg"
     },
     {
       "id": "s1",
@@ -96,7 +102,8 @@
         "UK 9",
         "UK 10"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-white-trainers.jpg"
     },
     {
       "id": "s2",
@@ -109,7 +116,8 @@
         "UK 9",
         "UK 10"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-black-derby.jpg"
     },
     {
       "id": "s3",
@@ -122,7 +130,8 @@
         "UK 9",
         "UK 10"
       ],
-      "audience": "men"
+      "audience": "men",
+      "image_url": "/demo/men-brown-loafers.jpg"
     },
     {
       "id": "a1",
@@ -170,7 +179,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-white-shirt.jpg"
     },
     {
       "id": "wt2",
@@ -185,7 +195,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-black-top.jpg"
     },
     {
       "id": "wt3",
@@ -200,7 +211,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-navy-blouse.jpg"
     },
     {
       "id": "wb1",
@@ -215,7 +227,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-black-trousers.jpg"
     },
     {
       "id": "wb2",
@@ -230,7 +243,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-blue-jeans.jpg"
     },
     {
       "id": "wb3",
@@ -245,7 +259,8 @@
         "12",
         "14",
         "16"
-      ]
+      ],
+      "image_url": "/demo/women-grey-trousers.jpg"
     },
     {
       "id": "ws1",
@@ -260,7 +275,8 @@
         "UK 6",
         "UK 7",
         "UK 8"
-      ]
+      ],
+      "image_url": "/demo/women-white-trainers.jpg"
     },
     {
       "id": "ws2",
@@ -275,7 +291,8 @@
         "UK 6",
         "UK 7",
         "UK 8"
-      ]
+      ],
+      "image_url": "/demo/women-black-loafers.jpg"
     },
     {
       "id": "ws3",
@@ -290,7 +307,8 @@
         "UK 6",
         "UK 7",
         "UK 8"
-      ]
+      ],
+      "image_url": "/demo/women-brown-boots.jpg"
     },
     {
       "id": "wa1",
