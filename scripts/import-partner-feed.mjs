@@ -11,9 +11,9 @@ if (!inputPath || inputPath.startsWith('--')) {
 
 const outputPath = resolve('src/lib/partner-products.json');
 const required = ['merchant', 'sku', 'audience', 'category', 'name', 'price_gbp', 'color_family', 'size', 'style_tags', 'occasion_tags', 'product_url', 'image_url', 'in_stock'];
-const categories = new Set(['top', 'bottom', 'shoe', 'accessory']);
+const categories = new Set(['top', 'bottom', 'one-piece', 'outerwear', 'shoe', 'accessory']);
 const colours = new Set(['black', 'white', 'grey', 'navy', 'tan', 'brown', 'blue', 'orange', 'red', 'green', 'yellow', 'purple']);
-const audiences = new Set(['men', 'women']);
+const audiences = new Set(['men', 'women', 'unisex']);
 const styles = new Set(['relaxed', 'polished', 'street']);
 const occasions = new Set(['everyday', 'work', 'going-out']);
 
@@ -36,6 +36,18 @@ function requireText(value, field, line) {
   return value.trim();
 }
 
+function optionalText(value, field, line) {
+  if (!value?.trim()) return undefined;
+  if (value.trim().length > 160) throw new Error('Row ' + line + ': ' + field + ' is too long');
+  return value.trim();
+}
+
+function descriptiveTags(value, line) {
+  const tags = [...new Set((value || '').split('|').map(tag => tag.trim()).filter(Boolean))];
+  if (tags.some(tag => tag.length > 50)) throw new Error('Row ' + line + ': style_details entry is too long');
+  return tags;
+}
+
 const csv = readFileSync(resolve(inputPath), 'utf8');
 const rows = parse(csv, { columns: true, skip_empty_lines: true, trim: true, bom: true });
 if (!rows.length) throw new Error('Feed has no product rows');
@@ -52,13 +64,17 @@ for (const [index, row] of rows.entries()) {
   }
   const sku = requireText(row.sku, 'sku', line);
   const name = requireText(row.name, 'name', line);
+  const garment_type = optionalText(row.garment_type, 'garment_type', line);
+  const brand = optionalText(row.brand, 'brand', line);
+  const material = optionalText(row.material, 'material', line);
+  const style_details = descriptiveTags(row.style_details, line);
   const audience = requireText(row.audience, 'audience', line).toLowerCase();
   const category = requireText(row.category, 'category', line).toLowerCase();
   const color_family = requireText(row.color_family, 'color_family', line).toLowerCase();
   const size = requireText(row.size, 'size', line);
   const style_tags = parseTags(row.style_tags, 'style_tags', styles, line);
   const occasion_tags = parseTags(row.occasion_tags, 'occasion_tags', occasions, line);
-  if (!audiences.has(audience)) throw new Error('Row ' + line + ': audience must be men or women');
+  if (!audiences.has(audience)) throw new Error('Row ' + line + ': audience must be men, women or unisex');
   if (!categories.has(category)) throw new Error('Row ' + line + ': invalid category');
   if (!colours.has(color_family)) throw new Error('Row ' + line + ': invalid color_family');
   if (!/^\d+(?:\.\d{1,2})?$/.test(row.price_gbp)) throw new Error('Row ' + line + ': invalid GBP price');
@@ -72,16 +88,16 @@ for (const [index, row] of rows.entries()) {
   const id = merchant + ':' + sku;
   const existing = imported.get(id);
   if (existing) {
-    for (const key of ['name', 'audience', 'category', 'color_family', 'price_pennies', 'product_url', 'image_url', 'style_tags', 'occasion_tags']) {
-      if (JSON.stringify(existing[key]) !== JSON.stringify(({ name, audience, category, color_family, price_pennies, product_url, image_url, style_tags, occasion_tags })[key])) {
+    for (const key of ['name', 'audience', 'category', 'garment_type', 'brand', 'material', 'style_details', 'color_family', 'price_pennies', 'product_url', 'image_url', 'style_tags', 'occasion_tags']) {
+      if (JSON.stringify(existing[key]) !== JSON.stringify(({ name, audience, category, garment_type, brand, material, style_details, color_family, price_pennies, product_url, image_url, style_tags, occasion_tags })[key])) {
         throw new Error('Row ' + line + ': SKU has inconsistent product details');
       }
     }
     if (!existing.sizes.includes(size)) existing.sizes.push(size);
   } else {
     imported.set(id, {
-      id, retailer: merchant, audience, category, name, price_pennies,
-      color_family, sizes: [size], style_tags, occasion_tags, product_url, image_url,
+      id, retailer: merchant, audience, category, name, garment_type, brand, material, style_details,
+      price_pennies, color_family, sizes: [size], style_tags, occasion_tags, product_url, image_url,
       updated_at: new Date().toISOString(),
     });
   }

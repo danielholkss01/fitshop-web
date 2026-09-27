@@ -62,14 +62,14 @@ export default function ProfilePage() {
           </fieldset>
           <div className="form-divider" />
           <div className="form-row">
-            <label className="form-group"><span>Top size</span><select value={profile.topSize} onChange={e => setProfile({ ...profile, topSize: e.target.value })}>{options.tops.map(size => <option key={size}>{size}</option>)}</select></label>
-            <label className="form-group"><span>Bottom size</span><select value={profile.bottomSize} onChange={e => setProfile({ ...profile, bottomSize: e.target.value })}>{options.bottoms.map(size => <option key={size}>{size}</option>)}</select></label>
+            <label className="form-group"><span>Top or dress size</span><input list="top-size-options" maxLength={32} value={profile.topSize} onChange={e => setProfile({ ...profile, topSize: e.target.value })} required /><datalist id="top-size-options">{options.tops.map(size => <option key={size} value={size} />)}</datalist></label>
+            <label className="form-group"><span>Bottom size</span><input list="bottom-size-options" maxLength={32} value={profile.bottomSize} onChange={e => setProfile({ ...profile, bottomSize: e.target.value })} required /><datalist id="bottom-size-options">{options.bottoms.map(size => <option key={size} value={size} />)}</datalist></label>
           </div>
           <div className="form-row">
-            <label className="form-group"><span>Shoe size</span><select value={profile.shoeSize} onChange={e => setProfile({ ...profile, shoeSize: e.target.value })}>{options.shoes.map(size => <option key={size}>{size}</option>)}</select></label>
+            <label className="form-group"><span>Shoe size</span><input list="shoe-size-options" maxLength={32} value={profile.shoeSize} onChange={e => setProfile({ ...profile, shoeSize: e.target.value })} required /><datalist id="shoe-size-options">{options.shoes.map(size => <option key={size} value={size} />)}</datalist></label>
             <label className="form-group"><span>Total outfit budget</span><span className="currency-input"><span>£</span><input type="number" min="1" max="10000" step="1" value={profile.budget} onChange={e => setProfile({ ...profile, budget: Number(e.target.value) })} required /></span></label>
           </div>
-          <p className="form-hint">This budget covers the complete outfit, not each individual item.</p>
+          <p className="form-hint">You can enter a size that is not suggested. Store sizing varies, so check the retailer’s guide before buying. The budget covers the complete outfit.</p>
           <div className="form-divider" />
           <fieldset className="preference-group">
             <legend className="field-label">YOUR STYLE</legend>
