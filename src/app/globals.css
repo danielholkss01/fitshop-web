@@ -156,6 +156,8 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .design-label { display: block; font-size: 13px; font-weight: 800; margin: 20px 0 8px; }
 .design-input { display: block; width: 100%; min-height: 46px; border: 1px solid #cdd0c7; border-radius: 8px; background: #fff; padding: 9px 12px; color: var(--ink); }
 .design-input[type="file"] { height: auto; }
+.design-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.design-filters .design-label { margin-top: 14px; }
 .design-count, .design-explanation, .design-footnote, .design-variant-panel p { color: var(--muted); font-size: 12px; line-height: 1.6; }
 .design-count { margin: 12px 0 16px; }
 .design-status { margin: 18px 0; padding: 18px; border-radius: 9px; background: #f1f1ea; color: #454b41; font-size: 13px; line-height: 1.5; }
@@ -226,6 +228,7 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
   .design-intro { padding: 56px 0 35px; }
   .design-catalog, .design-editor { padding: 22px; }
   .design-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .design-filters { grid-template-columns: 1fr; gap: 0; }
 }
 @media (max-width: 400px) {
   .fit-summary > div { padding: 0 8px; }

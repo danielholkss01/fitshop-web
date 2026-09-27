@@ -6,7 +6,7 @@ Fit&Shop shoppers can draft an artwork file on `/design`. With Printify catalog 
 
 In Printify, create a personal access token at My Profile → Connections. Give it `catalog.read` and `print_providers.read` access for this read-only catalog stage. Add it to the Fit&Shop Vercel project as the server-side environment variable `PRINTIFY_API_TOKEN`, for the environments you want to test, then redeploy. For local development, place it in an ignored `.env.local` file. Never put the token in Git, a browser variable or a chat message. Printify tokens expire after one year.
 
-The site's server requests Printify blueprints, providers and in-stock variants. All Printify catalog items can be reached through search and pagination; adult clothing is only sorted first. An empty Printify My Products page does not block catalog browsing because blueprints are different from products created in a shop.
+The site's server requests Printify blueprints, providers and in-stock variants. All Printify catalog items can be reached through search and pagination. The first All items page mixes women's, men's, unisex and other adult clothing before accessories and non-clothing items. Audience and type filters use catalog titles, so products with ambiguous titles remain under Everyone and All items. Searches for `gown` also find products named `dress`, but the site does not invent products missing from Printify. An empty Printify My Products page does not block catalog browsing because blueprints are different from products created in a shop.
 
 ## What the draft does
 

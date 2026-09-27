@@ -1,22 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrintifyNotConnectedError, printifyBlueprints } from '@/lib/printify';
+import { browsePrintify, type CatalogAudience, type CatalogCategory } from '@/lib/printify-catalog';
 
 const pageSize = 24;
-const adultClothing = /\b(tee|t-shirt|shirt|polo|tank|hoodie|sweatshirt|sweater|jumper|dress|gown|skirt|jacket|coat|blazer|jeans|pants|trousers|shorts|leggings|joggers|shoes|boots|sneakers|trainers|socks|hat|cap|scarf|bag)s?\b/i;
-const childClothing = /\b(kids?|children|boys?|girls?|baby|infants?|toddlers?|youth)\b/i;
+const audiences = ['all', 'women', 'men', 'unisex'] as const;
+const categories = ['all', 'clothing', 'dresses', 'tops', 'bottoms', 'outerwear', 'accessories'] as const;
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get('q')?.trim().slice(0, 80).toLowerCase() || '';
+  const requestedAudience = request.nextUrl.searchParams.get('audience');
+  const audience: CatalogAudience = audiences.find(value => value === requestedAudience) || 'all';
+  const requestedCategory = request.nextUrl.searchParams.get('category');
+  const category: CatalogCategory = categories.find(value => value === requestedCategory) || 'all';
   const requestedPage = Number(request.nextUrl.searchParams.get('page') || '0');
   const page = Number.isSafeInteger(requestedPage) && requestedPage >= 0 ? requestedPage : 0;
   try {
     const blueprints = await printifyBlueprints();
-    const matching = blueprints.filter(item => `${item.title} ${item.brand} ${item.model}`.toLowerCase().includes(query));
-    // Keep the whole Printify catalog reachable; just show adult clothing first.
-    matching.sort((a, b) =>
-      Number(adultClothing.test(b.title) && !childClothing.test(b.title))
-      - Number(adultClothing.test(a.title) && !childClothing.test(a.title))
-      || a.title.localeCompare(b.title));
+    const matching = browsePrintify(blueprints, query, audience, category);
     return NextResponse.json({ products: matching.slice(page * pageSize, (page + 1) * pageSize), total: matching.length,
       nextPage: (page + 1) * pageSize < matching.length ? page + 1 : null });
   } catch (error) {

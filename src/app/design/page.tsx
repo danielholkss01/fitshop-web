@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
 import Link from 'next/link';
 import type { PrintifyBlueprint, PrintifyPlaceholder, PrintifyProvider, PrintifyVariant } from '@/lib/printify';
+import type { CatalogAudience, CatalogCategory } from '@/lib/printify-catalog';
 
 type CatalogResponse = { products: PrintifyBlueprint[]; total: number; nextPage: number | null; error?: string };
 type ProductResponse = { product: PrintifyBlueprint; providers: PrintifyProvider[]; error?: string };
@@ -13,6 +14,10 @@ async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || 'Please try again.');
   return data as T;
+}
+
+function catalogUrl(search: string, audience: CatalogAudience, category: CatalogCategory, page: number) {
+  return `/api/printify/catalog?${new URLSearchParams({ q: search, audience, category, page: String(page) })}`;
 }
 
 function artworkSize(area?: PrintifyPlaceholder) {
@@ -55,6 +60,8 @@ function drawArtwork(canvas: HTMLCanvasElement, area: PrintifyPlaceholder | unde
 
 export default function DesignPage() {
   const [search, setSearch] = useState('');
+  const [audience, setAudience] = useState<CatalogAudience>('all');
+  const [category, setCategory] = useState<CatalogCategory>('all');
   const [products, setProducts] = useState<PrintifyBlueprint[]>([]);
   const [total, setTotal] = useState(0);
   const [nextPage, setNextPage] = useState<number | null>(null);
@@ -87,7 +94,7 @@ export default function DesignPage() {
     const timeout = window.setTimeout(async () => {
       setCatalogError('');
       try {
-        const data = await getJson<CatalogResponse>(`/api/printify/catalog?q=${encodeURIComponent(search)}&page=0`, controller.signal);
+        const data = await getJson<CatalogResponse>(catalogUrl(search, audience, category, 0), controller.signal);
         if (!controller.signal.aborted) {
           setProducts(data.products);
           setTotal(data.total);
@@ -100,14 +107,14 @@ export default function DesignPage() {
       }
     }, search ? 280 : 0);
     return () => { controller.abort(); window.clearTimeout(timeout); };
-  }, [search]);
+  }, [search, audience, category]);
 
   async function loadMore() {
     if (nextPage === null || loadingCatalog) return;
     const request = catalogRequest.current;
     setLoadingCatalog(true);
     try {
-      const data = await getJson<CatalogResponse>(`/api/printify/catalog?q=${encodeURIComponent(search)}&page=${nextPage}`);
+      const data = await getJson<CatalogResponse>(catalogUrl(search, audience, category, nextPage));
       if (request === catalogRequest.current) {
         setProducts(previous => [...previous, ...data.products]);
         setNextPage(data.nextPage);
@@ -207,8 +214,22 @@ export default function DesignPage() {
             <div className="design-section-title"><span className="eyebrow">01 / THE GARMENT</span><h2>Choose your canvas.</h2></div>
             <label className="design-label" htmlFor="catalog-search">Search the Printify catalog</label>
             <input id="catalog-search" className="design-input" type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder="Try dress, polo, hoodie, shoes…" />
+            <div className="design-filters">
+              <div><label className="design-label" htmlFor="catalog-audience">Who is it for?</label>
+                <select id="catalog-audience" className="design-input" value={audience} onChange={event => setAudience(event.target.value as CatalogAudience)}>
+                  <option value="all">Everyone</option><option value="women">Women</option><option value="men">Men</option><option value="unisex">Unisex</option>
+                </select></div>
+              <div><label className="design-label" htmlFor="catalog-category">Type of item</label>
+                <select id="catalog-category" className="design-input" value={category} onChange={event => setCategory(event.target.value as CatalogCategory)}>
+                  <option value="all">All items</option><option value="clothing">Clothing</option><option value="dresses">Dresses & skirts</option>
+                  <option value="tops">Tops & polos</option><option value="bottoms">Trousers & shorts</option>
+                  <option value="outerwear">Jackets & coats</option><option value="accessories">Shoes & accessories</option>
+                </select></div>
+            </div>
             {catalogError && <p className="design-status" role="status">{catalogError}</p>}
             {!catalogError && <p className="design-count">{loadingCatalog && !products.length ? 'Loading products…' : `${total} products found`}</p>}
+            {/^gowns?$/i.test(search.trim()) && !catalogError && <p className="design-count">Printify usually calls these dresses, so the search includes dresses.</p>}
+            {!loadingCatalog && !catalogError && total === 0 && <p className="design-status">No matching Printify items. Try another search or set the filters to All items and Everyone.</p>}
             <div className="design-products">
               {products.map(item => (
                 <button type="button" className={`design-product${product?.id === item.id ? ' selected' : ''}`} key={item.id} onClick={() => void chooseProduct(item)}>
@@ -222,6 +243,7 @@ export default function DesignPage() {
               ))}
             </div>
             {nextPage !== null && <button type="button" className="design-more" onClick={() => void loadMore()} disabled={loadingCatalog}>{loadingCatalog ? 'Loading…' : 'Show more products'}</button>}
+            <p className="design-footnote">These are blank items for custom printing. Ready-to-wear brands need a separate shop catalog. The filters use Printify product names, so items without a clear category or audience may only appear under All items and Everyone.</p>
             {working && <p className="design-count">Checking print providers…</p>}
             {productError && <p className="error-message" role="alert">{productError}</p>}
             {product && <div className="design-variant-panel">
