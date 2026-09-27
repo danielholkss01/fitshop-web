@@ -87,6 +87,7 @@ export default function Home() {
         <Link href="/" className="brand" aria-label="Fit and Shop home">fit<span>&</span>shop<span className="brand-dot">.</span></Link>
         <nav aria-label="Main navigation">
           <a href="#how-it-works">How it works</a>
+          <Link href="/design">Design a piece</Link>
           <Link href="/profile" className="nav-profile">Your fit <span aria-hidden="true">↗</span></Link>
         </nav>
       </header>
@@ -99,6 +100,7 @@ export default function Home() {
             <p>Tell us your sizes and budget. We’ll put together complete looks that work together, so you can spend less time deciding what to wear.</p>
             <div className="hero-actions">
               <a href="#build" className="button button-dark">Find my outfits <span aria-hidden="true">↗</span></a>
+              <Link href="/design" className="text-link">Create your own print</Link>
               <span className="hero-note">A few details. Looks for your taste.</span>
             </div>
           </div>
