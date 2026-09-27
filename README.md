@@ -24,4 +24,6 @@ See [the partner feed guide](docs/partner-feed.md) for the CSV format and import
 
 An [Awin feed adapter](docs/awin-feed.md) can import an authorised fashion feed in legacy CSV or enhanced JSONL format. It is prepared for when publisher and advertiser feed access is available; it has not connected to an account or added live stock yet.
 
+The [customer design studio](docs/printify-design.md) lets shoppers draft artwork on Fit&Shop and browse blank Printify products once a server-side catalog token is configured. It does not yet place orders or collect payments.
+
 The separate `fitshop-api` repository remains an earlier API prototype. The web app generates outfits on its own server so it works before that service is deployed.
