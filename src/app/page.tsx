@@ -194,8 +194,9 @@ export default function Home() {
                             )}
                           </div>
                           <div className="outfit-item-details">
-                            <span className="outfit-item-category">{item.category}</span>
+                            <span className="outfit-item-category">{item.garment_type || (item.category === 'one-piece' ? 'Dress or one-piece' : item.category)}</span>
                             <strong>{item.name}</strong>
+                            {!result.demo && (item.brand || item.material || item.style_details?.length) && <span className="outfit-item-meta">{[item.brand, item.material, item.style_details?.join(', ')].filter(Boolean).join(' · ')}</span>}
                             {!result.demo && item.product_url && (
                               <a href={item.product_url} target="_blank" rel="sponsored noopener noreferrer">
                                 View at {item.retailer} <span aria-hidden="true">↗</span>
@@ -227,7 +228,7 @@ export default function Home() {
           <div><span className="eyebrow">A SIMPLER WAY TO SHOP</span><h2>Less scrolling.<br /><em>More wearing.</em></h2></div>
           <div className="how-steps">
             <div><span>01</span><h3>Set your fit and taste</h3><p>Choose sizes, budget, style, occasion and colours to skip.</p></div>
-            <div><span>02</span><h3>See complete looks</h3><p>Explore combinations of tops, bottoms and shoes that go together.</p></div>
+            <div><span>02</span><h3>See complete looks</h3><p>Explore dresses, separates, layers and shoes that go together as the catalogue grows.</p></div>
             <div><span>03</span><h3>Shop with confidence</h3><p>When partner products are available, open each item at its store to purchase.</p></div>
           </div>
         </section>

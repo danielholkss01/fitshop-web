@@ -31,14 +31,14 @@ export type Profile = {
 
 export const sizes: Record<Audience, { tops: string[]; bottoms: string[]; shoes: string[] }> = {
   men: {
-    tops: ['XS', 'S', 'M', 'L', 'XL'],
-    bottoms: ['30', '32', '34', '36'],
-    shoes: ['UK 8', 'UK 9', 'UK 10'],
+    tops: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
+    bottoms: ['28', '30', '32', '34', '36', '38', '40', '42', '44', '46'],
+    shoes: ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10', 'UK 11', 'UK 12', 'UK 13'],
   },
   women: {
-    tops: ['8', '10', '12', '14', '16'],
-    bottoms: ['8', '10', '12', '14', '16'],
-    shoes: ['UK 4', 'UK 5', 'UK 6', 'UK 7', 'UK 8'],
+    tops: ['4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30', '32'],
+    bottoms: ['4', '6', '8', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30', '32'],
+    shoes: ['UK 2', 'UK 3', 'UK 4', 'UK 5', 'UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10'],
   },
 };
 
@@ -73,7 +73,9 @@ export function normalizeProfile(value: unknown): Profile {
   const input = value as Partial<Profile>;
   const audience: Audience = input.audience === 'women' ? 'women' : 'men';
   const defaults = profileFor(audience);
-  const options = sizes[audience];
+  // A suggested size list must not exclude a size offered by an authorised store.
+  const selectedSize = (value: unknown, fallback: string) =>
+    typeof value === 'string' && value.trim().length > 0 && value.trim().length <= 32 ? value.trim() : fallback;
   const budget = Number(input.budget);
   const style = styles.find(option => option.value === input.style)?.value ?? 'any';
   const occasion = occasions.find(option => option.value === input.occasion)?.value ?? 'any';
@@ -85,9 +87,9 @@ export function normalizeProfile(value: unknown): Profile {
     ? input.preferredColor as Color : 'any';
   return {
     audience,
-    topSize: options.tops.includes(input.topSize ?? '') ? input.topSize! : defaults.topSize,
-    bottomSize: options.bottoms.includes(input.bottomSize ?? '') ? input.bottomSize! : defaults.bottomSize,
-    shoeSize: options.shoes.includes(input.shoeSize ?? '') ? input.shoeSize! : defaults.shoeSize,
+    topSize: selectedSize(input.topSize, defaults.topSize),
+    bottomSize: selectedSize(input.bottomSize, defaults.bottomSize),
+    shoeSize: selectedSize(input.shoeSize, defaults.shoeSize),
     budget: Number.isFinite(budget) && budget > 0 ? budget : defaults.budget,
     style,
     occasion,
