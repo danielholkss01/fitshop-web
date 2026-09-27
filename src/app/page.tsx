@@ -196,7 +196,7 @@ export default function Home() {
                           <div className="outfit-item-details">
                             <span className="outfit-item-category">{item.garment_type || (item.category === 'one-piece' ? 'Dress or one-piece' : item.category)}</span>
                             <strong>{item.name}</strong>
-                            {!result.demo && (item.brand || item.material || item.style_details?.length) && <span className="outfit-item-meta">{[item.brand, item.material, item.style_details?.join(', ')].filter(Boolean).join(' · ')}</span>}
+                            {!result.demo && (item.brand || item.material || item.color_name || item.style_details?.length) && <span className="outfit-item-meta">{[item.brand, item.color_name, item.material, item.style_details?.join(', ')].filter(Boolean).join(' · ')}</span>}
                             {!result.demo && item.product_url && (
                               <a href={item.product_url} target="_blank" rel="sponsored noopener noreferrer">
                                 View at {item.retailer} <span aria-hidden="true">↗</span>
