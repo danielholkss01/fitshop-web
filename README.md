@@ -22,4 +22,6 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 
 See [the partner feed guide](docs/partner-feed.md) for the CSV format and import command. When current, approved partner products can form a complete outfit for the shopper's size and budget, the site shows their images and links to the retailers. Otherwise it displays the clearly labelled sample catalogue.
 
+An [Awin feed adapter](docs/awin-feed.md) can import an authorised fashion feed in legacy CSV or enhanced JSONL format. It is prepared for when publisher and advertiser feed access is available; it has not connected to an account or added live stock yet.
+
 The separate `fitshop-api` repository remains an earlier API prototype. The web app generates outfits on its own server so it works before that service is deployed.

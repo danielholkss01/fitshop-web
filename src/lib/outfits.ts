@@ -1,6 +1,6 @@
 import catalog from './catalog.json';
 import partnerCatalog from './partner-products.json';
-import type { Audience, Color, Occasion, Profile, Style } from './profile';
+import type { Audience, Occasion, Profile, Style } from './profile';
 
 // Garment type is free text (polo, gown, jeans, etc.); category describes how it is worn.
 export type Category = 'top' | 'bottom' | 'one-piece' | 'outerwear' | 'shoe' | 'accessory';
@@ -15,8 +15,10 @@ export type Product = {
   brand?: string;
   material?: string;
   style_details?: string[];
+  color_name?: string;
+  source_id?: string;
   price_pennies: number;
-  color_family: Color;
+  color_family: string;
   sizes: string[];
   style_tags: SpecificStyle[];
   occasion_tags: SpecificOccasion[];
@@ -66,7 +68,7 @@ function paletteScore(items: Product[], profile: Profile) {
 export function generateOutfits(profile: Profile, products: Product[] = sampleProducts): Outfit[] {
   const budgetPennies = Math.round(profile.budget * 100);
   const selection = products.filter(product => (product.audience === profile.audience || product.audience === 'unisex')
-    && !profile.avoidedColors.includes(product.color_family)
+    && !profile.avoidedColors.some(color => color === product.color_family)
     && product.style_tags?.length && product.occasion_tags?.length);
   const eligible = (category: Category, size: string) => selection.filter(product => product.category === category && product.sizes.includes(size)
     && (profile.style === 'any' || product.style_tags.includes(profile.style))
