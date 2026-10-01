@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { generateOutfitPage } from '../src/lib/outfit-search.ts';
+import { emptyFeedback, normalizeFeedback, recordFeedback } from '../src/lib/outfit-feedback.ts';
 
 const profile = {
   audience: 'women', topSize: '12', bottomSize: '12', shoeSize: 'UK 6',
@@ -59,4 +60,27 @@ test('keeps optional layers and accessories only when the complete look fits', (
   assert.equal(result.total, 2);
   assert.deepEqual(result.outfits.map(outfit => outfit.total_price).sort((a, b) => a - b), [8000, 10000]);
   assert.ok(result.outfits.every(outfit => outfit.items.some(item => item.id === 'belt')));
+});
+
+test('outfit reactions change ranking, skip rejected looks and stay separate by audience', () => {
+  const products = [
+    product('shoe', 'shoe', 3000),
+    { ...product('a-wide', 'one-piece', 2000), name: 'Wide Dress', color_family: 'blue' },
+    { ...product('m-slim', 'one-piece', 2000), name: 'Slim Dress' },
+    { ...product('z-slim', 'one-piece', 2000), name: 'Slim Dress' },
+  ];
+  const original = generateOutfitPage(profile, products, 0, 6);
+  const liked = original.outfits.find(outfit => outfit.items[0].id === 'z-slim');
+  const rejected = original.outfits.find(outfit => outfit.items[0].id === 'a-wide');
+  let feedback = recordFeedback(emptyFeedback(), 'women', liked, 'more');
+  assert.equal(feedback.men.length, 0);
+  const ranked = generateOutfitPage(profile, products, 0, 6, feedback.women);
+  assert.deepEqual(ranked.outfits.map(outfit => outfit.items[0].id), ['z-slim', 'm-slim', 'a-wide']);
+
+  feedback = recordFeedback(feedback, 'women', rejected, 'less');
+  const filtered = generateOutfitPage(profile, products, 0, 6, feedback.women);
+  assert.equal(filtered.total, 2);
+  assert.ok(filtered.outfits.every(outfit => outfit.id !== rejected.id));
+  assert.equal(generateOutfitPage(profile, products, 0, 6, feedback.men).total, 3);
+  assert.deepEqual(normalizeFeedback([{ id: 'bad', reaction: 'less', style: 'invalid', colors: [], features: [] }]), []);
 });

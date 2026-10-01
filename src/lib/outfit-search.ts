@@ -1,4 +1,5 @@
 import type { Audience, Occasion, Profile, Style } from './profile';
+import { feedbackScore, type FeedbackEntry } from './outfit-feedback.ts';
 
 // Garment type is free text (polo, gown, jeans, etc.); category describes how it is worn.
 export type Category = 'top' | 'bottom' | 'one-piece' | 'outerwear' | 'shoe' | 'accessory';
@@ -55,8 +56,9 @@ function paletteScore(items: Product[], profile: Profile) {
     + (profile.preferredColor === 'any' ? 0 : colors.filter(color => color === profile.preferredColor).length * 3);
 }
 
-function visitOutfits(profile: Profile, products: Product[], visit: (candidate: RankedOutfit) => void) {
+function visitOutfits(profile: Profile, products: Product[], feedback: FeedbackEntry[], visit: (candidate: RankedOutfit) => void, scoreCandidates = true) {
   const budgetPennies = Math.round(profile.budget * 100);
+  const rejected = new Set(feedback.filter(entry => entry.reaction === 'less').map(entry => entry.id));
   const selection = products.filter(product => (product.audience === profile.audience || product.audience === 'unisex')
     && !profile.avoidedColors.some(color => color === product.color_family)
     && product.style_tags?.length && product.occasion_tags?.length
@@ -81,11 +83,13 @@ function visitOutfits(profile: Profile, products: Product[], visit: (candidate: 
       && corePrice + item.price_pennies <= budgetPennies && core.every(piece => worksWith(item.color_family, piece.color_family)));
     const items = accessory ? [...core, accessory] : core;
     const colors = [...new Set(core.map(item => item.color_family))];
-    visit({ outfit: {
+    const outfit: Outfit = {
       id: core.map(item => item.id).join(':'), items,
       total_price: corePrice + (accessory?.price_pennies || 0), style,
       reason: `${style[0].toUpperCase() + style.slice(1)} pieces for ${occasionDescription[occasion]}, in ${colors.join(', ')}.`,
-    }, score: paletteScore(core, profile) });
+    };
+    if (rejected.has(outfit.id)) return;
+    visit({ outfit, score: scoreCandidates ? paletteScore(core, profile) + feedbackScore(outfit, feedback) : 0 });
   }
 
   function addLooks(base: Product[], basePrice: number) {
@@ -154,24 +158,24 @@ class BestCandidates {
   sorted() { return this.heap.sort(rank); }
 }
 
-export function generateOutfitPage(profile: Profile, products: Product[], page: number, pageSize: number) {
+export function generateOutfitPage(profile: Profile, products: Product[], page: number, pageSize: number, feedback: FeedbackEntry[] = []) {
   if (!Number.isSafeInteger(page) || page < 0 || !Number.isSafeInteger(pageSize) || pageSize < 1
     || !Number.isSafeInteger((page + 1) * pageSize)) throw new Error('Invalid outfit page');
   let total = 0;
   let lowest = Infinity;
   let highest = 0;
-  visitOutfits(profile, products, ({ outfit }) => {
+  visitOutfits(profile, products, feedback, ({ outfit }) => {
     total++;
     lowest = Math.min(lowest, outfit.total_price);
     highest = Math.max(highest, outfit.total_price);
-  });
+  }, false);
   if (!total) return { outfits: [] as Outfit[], total, nextPage: null as number | null };
 
   const end = (page + 1) * pageSize;
   const bands = [new BestCandidates(end), new BestCandidates(end), new BestCandidates(end)];
   const first = lowest + (highest - lowest) / 3;
   const second = lowest + 2 * (highest - lowest) / 3;
-  visitOutfits(profile, products, candidate => {
+  visitOutfits(profile, products, feedback, candidate => {
     const price = candidate.outfit.total_price;
     const band = lowest === highest ? 1 : price < first ? 0 : price < second ? 1 : 2;
     bands[band].add(candidate);

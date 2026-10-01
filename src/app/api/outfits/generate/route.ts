@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { outfitPage } from '@/lib/outfits';
 import { normalizeProfile } from '@/lib/profile';
+import { normalizeFeedback } from '@/lib/outfit-feedback';
 
 export async function POST(request: Request) {
   let input: unknown;
@@ -28,5 +29,6 @@ export async function POST(request: Request) {
   if (!Number.isSafeInteger((Number(page) + 1) * pageSize)) {
     return NextResponse.json({ error: 'Invalid page' }, { status: 400 });
   }
-  return NextResponse.json(outfitPage(profile, Number(page), pageSize));
+  const feedback = normalizeFeedback((input as { feedback?: unknown }).feedback);
+  return NextResponse.json(outfitPage(profile, Number(page), pageSize, feedback));
 }

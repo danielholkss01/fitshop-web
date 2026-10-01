@@ -95,6 +95,12 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .outfit-item-price { font-size: 14px; white-space: nowrap; align-self: center; }
 .outfit-total { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: auto; padding-top: 20px; font-size: 14px; font-weight: 800; }
 .outfit-total strong { font-size: 23px; }
+.feedback-intro { display: flex; justify-content: space-between; align-items: center; gap: 15px; color: var(--muted); font-size: 13px; margin: -8px 0 22px; }
+.feedback-intro button { border: 0; background: transparent; color: #a64527; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.feedback-notice { color: #254c36; background: #e3f0e5; border: 1px solid #b9d5be; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin: 0 0 22px; }
+.outfit-feedback { display: flex; gap: 8px; margin-top: 18px; }
+.outfit-feedback button { flex: 1; min-width: 0; background: #f6f6f1; color: var(--ink); border: 1px solid #cdd0c7; border-radius: 8px; padding: 11px 7px; font-size: 12px; font-weight: 800; }
+.outfit-feedback button:hover, .outfit-feedback button[aria-pressed="true"] { border-color: var(--ink); background: #e6ebdf; }
 .demo-note { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 26px 0 0; max-width: 700px; }
 .more-looks { text-align: center; margin-top: 31px; }
 .real-products-promo { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 72px 6%; border-top: 1px solid var(--line); }

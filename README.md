@@ -14,6 +14,7 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 ## Current scope
 
 - Sizes, budget, and taste preferences are saved in the shopper's browser using local storage. No training or account system is running yet. The first ranking is based on reviewed item tags, compatible colours, sizes and budget.
+- Shoppers can select "More like this" or "Not for me" on a complete look. That feedback stays in their browser, is kept separately for men and women, and influences the order of later matches. They can clear it at any time. It is a transparent preference rule, not an AI model or a fit guarantee.
 - Products in `src/lib/catalog.json` are sample data. Each of the 20 valid sample combinations has a generated full-body model photo, and the top, bottom and shoe details are crops of that same photo. Item prices appear before the outfit total. These images are styling examples, not photographs of actual retailer products or a virtual try-on of the shopper. Sizes and prices do not represent live retailer offers. See [sample image maintenance](docs/demo-look-images.md).
 - There is no checkout or address collection. Retailer products and shopping links appear only after an approved partner feed is imported.
 - Approved feeds can describe dresses, gowns, jumpsuits, jackets, polos, jeans and other types with their actual brand, material and size labels. Dress or jumpsuit looks do not require a separate top and bottom. This is catalogue support; it does not imply those items are available before a supplier provides them.
