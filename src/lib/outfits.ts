@@ -2,6 +2,7 @@ import catalog from './catalog.json';
 import partnerCatalog from './partner-products.json';
 import { generateOutfitPage } from './outfit-search';
 import type { Profile } from './profile';
+import type { FeedbackEntry } from './outfit-feedback';
 
 export type { Category, Outfit, Product } from './outfit-search';
 import type { Product } from './outfit-search';
@@ -17,8 +18,8 @@ export function currentPartnerProducts(): Product[] {
   });
 }
 
-export function outfitPage(profile: Profile, page: number, pageSize: number) {
-  const partnerPage = generateOutfitPage(profile, currentPartnerProducts(), page, pageSize);
+export function outfitPage(profile: Profile, page: number, pageSize: number, feedback: FeedbackEntry[] = []) {
+  const partnerPage = generateOutfitPage(profile, currentPartnerProducts(), page, pageSize, feedback);
   if (partnerPage.total) return { ...partnerPage, demo: false };
-  return { ...generateOutfitPage(profile, sampleProducts, page, pageSize), demo: true };
+  return { ...generateOutfitPage(profile, sampleProducts, page, pageSize, feedback), demo: true };
 }

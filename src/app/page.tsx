@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { Outfit } from '@/lib/outfits';
 import { demoLookImage } from '@/lib/demo-look-images';
 import { defaultProfile, loadProfile, profileFor, type Audience, type Profile } from '@/lib/profile';
+import { emptyFeedback, loadFeedback, recordFeedback, saveFeedback, type FeedbackEntry, type FeedbackStore, type Reaction } from '@/lib/outfit-feedback';
 
 type Response = { outfits: Outfit[]; demo: boolean; total: number; nextPage: number | null };
 const money = (pennies: number) => '£' + (pennies / 100).toFixed(2);
@@ -15,18 +16,21 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState<FeedbackStore>(emptyFeedback);
+  const [feedbackNotice, setFeedbackNotice] = useState('');
   const requestId = useRef(0);
 
-  const buildOutfits = useCallback(async (selected: Profile) => {
+  const buildOutfits = useCallback(async (selected: Profile, taste: FeedbackEntry[] = [], notice = '') => {
     const currentRequest = ++requestId.current;
     setLoading(true);
     setError('');
     setResult(null);
+    setFeedbackNotice(notice);
     try {
       const response = await fetch('/api/outfits/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...selected, page: 0 }),
+        body: JSON.stringify({ ...selected, feedback: taste, page: 0 }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Unable to build outfits right now');
@@ -49,7 +53,7 @@ export default function Home() {
       const response = await fetch('/api/outfits/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...profile, page: result.nextPage }),
+        body: JSON.stringify({ ...profile, feedback: feedback[profile.audience], page: result.nextPage }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Unable to load more looks');
@@ -64,10 +68,12 @@ export default function Home() {
 
   useEffect(() => {
     const saved = loadProfile();
+    const savedFeedback = loadFeedback();
     setProfile(saved);
+    setFeedback(savedFeedback);
     if (new URLSearchParams(window.location.search).get('generate') === '1') {
       window.history.replaceState({}, '', '/');
-      void buildOutfits(saved);
+      void buildOutfits(saved, savedFeedback[saved.audience]);
     }
   }, [buildOutfits]);
 
@@ -78,7 +84,24 @@ export default function Home() {
     const next = profileFor(audience, profile.budget, profile);
     setProfile(next);
     setResult(null);
+    setFeedbackNotice('');
     localStorage.setItem('fitshop_profile', JSON.stringify(next));
+  }
+
+  function rateOutfit(outfit: Outfit, reaction: Reaction) {
+    const wasSelected = feedback[profile.audience].some(entry => entry.id === outfit.id && entry.reaction === reaction);
+    const next = recordFeedback(feedback, profile.audience, outfit, reaction);
+    saveFeedback(next);
+    setFeedback(next);
+    void buildOutfits(profile, next[profile.audience], wasSelected ? 'Preference removed.' :
+      reaction === 'more' ? 'Saved. Similar looks will appear sooner.' : 'Saved. We will skip this look and lower similar ones.');
+  }
+
+  function clearFeedback() {
+    const next = { ...feedback, [profile.audience]: [] };
+    saveFeedback(next);
+    setFeedback(next);
+    void buildOutfits(profile, [], 'Style feedback cleared for this selection.');
   }
 
   return (
@@ -144,7 +167,7 @@ export default function Home() {
             <div className="builder-action">
               <div className="sparkle" aria-hidden="true">✳</div>
               <p>Good outfits start with what you like.</p>
-              <button type="button" className="button button-light" onClick={() => void buildOutfits(profile)} disabled={loading}>
+              <button type="button" className="button button-light" onClick={() => void buildOutfits(profile, feedback[profile.audience])} disabled={loading}>
                 {loading ? 'Putting looks together…' : 'Build my outfits'} <span aria-hidden="true">→</span>
               </button>
             </div>
@@ -158,6 +181,11 @@ export default function Home() {
               <div><span className="eyebrow">02 / YOUR LOOKS</span><h2>Looks for your choices.</h2></div>
               <p>{result.demo ? `Sample combinations using a £${profile.budget} example budget` : `Partner items within your £${profile.budget} budget`}. Showing {result.outfits.length} of {result.total} looks.</p>
             </div>
+            <div className="feedback-intro">
+              <span>Tell us which looks you like. We use your choices to sort future looks in this browser.</span>
+              {feedback[profile.audience].length > 0 && <button type="button" onClick={clearFeedback}>Clear my style feedback</button>}
+            </div>
+            {feedbackNotice && <p className="feedback-notice" role="status">{feedbackNotice}</p>}
             {result.outfits.length === 0 ? (
               <div className="empty-state">
                 <span aria-hidden="true">✳</span>
@@ -208,6 +236,10 @@ export default function Home() {
                         </li>
                       ))}</ul>
                       <div className="outfit-total"><span>Outfit total</span><strong>{money(outfit.total_price)}</strong></div>
+                      <div className="outfit-feedback" role="group" aria-label={`Your thoughts on look ${index + 1}`}>
+                        <button type="button" aria-pressed={feedback[profile.audience].some(entry => entry.id === outfit.id && entry.reaction === 'more')} onClick={() => rateOutfit(outfit, 'more')}>More like this</button>
+                        <button type="button" onClick={() => rateOutfit(outfit, 'less')}>Not for me</button>
+                      </div>
                     </div>
                   </article>
                 ))}
