@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { currentPartnerProducts, generateOutfits } from '@/lib/outfits';
+import { outfitPage } from '@/lib/outfits';
 import { normalizeProfile } from '@/lib/profile';
 
 export async function POST(request: Request) {
@@ -24,15 +24,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid page' }, { status: 400 });
   }
 
-  const partnerOutfits = generateOutfits(profile, currentPartnerProducts());
-  const demo = partnerOutfits.length === 0;
-  const outfits = demo ? generateOutfits(profile) : partnerOutfits;
   const pageSize = 6;
-  const start = Number(page) * pageSize;
-  return NextResponse.json({
-    outfits: outfits.slice(start, start + pageSize),
-    demo,
-    total: outfits.length,
-    nextPage: start + pageSize < outfits.length ? Number(page) + 1 : null,
-  });
+  if (!Number.isSafeInteger((Number(page) + 1) * pageSize)) {
+    return NextResponse.json({ error: 'Invalid page' }, { status: 400 });
+  }
+  return NextResponse.json(outfitPage(profile, Number(page), pageSize));
 }
