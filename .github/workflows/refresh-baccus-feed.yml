@@ -15,7 +15,7 @@ concurrency:
 jobs:
   refresh:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Check feed configuration
@@ -30,12 +30,12 @@ jobs:
             echo 'enabled=true' >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.feed.outputs.enabled == 'true'
         with:
           persist-credentials: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.feed.outputs.enabled == 'true'
         with:
           node-version: '20'
