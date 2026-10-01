@@ -27,6 +27,19 @@ npm run import:awin -- /path/to/advertiser.jsonl --format enhanced --advertiser-
 
 The importer uses broad garment rules and provisional style tags; real fashion feeds need tagging review before being recommended. It does not claim that a store's size label guarantees a fit. The generated sample model photos do not represent imported products. Awin's newer format may vary by advertiser, so the first real feed should be checked against these assumptions.
 
+## Feed products without sizes
+
+Some advertiser feeds contain real photos, prices and Awin links but omit size-level availability. They cannot be used in the size-matched outfit builder. Use the separate discovery importer to place confirmed-for-sale products on `/shop`, where shoppers select their size at the retailer:
+
+```bash
+npm run import:awin:discovery -- /path/to/advertiser.csv.gz --advertiser-id 130505 --publisher-id 3111579 --audience men --feed-id 118153 --dry-run
+npm run import:awin:discovery -- /path/to/advertiser.csv.gz --advertiser-id 130505 --publisher-id 3111579 --audience men --feed-id 118153
+```
+
+Set `--audience` only after confirming the advertiser's range. The importer requires an in-stock item marked for sale, GBP price, fashion category, HTTPS image, and a tracked Awin link with the expected publisher and advertiser IDs. It replaces that feed's products while retaining other imported sources. It does not infer a garment's available sizes, generate an outfit, or show it on a person's photo. Review the store's programme terms and the imported JSON before publishing. Never commit the raw feed or its download URL.
+
+The first Baccus (UK) feed contained 229 rows. It marked 125 as not for sale, and supplied no usable sizes for any row. The discovery page therefore displays 104 items, subject to fresh feed data. Its store assortment is men's fashion; other approved retailers can be imported separately for women's fashion and different price ranges.
+
 ## Current capacity
 
-The present site stores partner products in `src/lib/partner-products.json`. Outfits are paged and the first page deliberately includes options across the available price range within the shopper's budget. Search retains only results needed for the requested page, but still scans eligible combinations on each request. A modest initial feed can be checked this way; a full multi-brand catalog requires scheduled ingestion, indexed storage and database-backed matching. There is no automatic Awin refresh yet. Imported listings expire from the site after seven days unless refreshed and deployed. No real products have been imported into the repository.
+The present site stores size-verified partner products in `src/lib/partner-products.json` and browsable products in `src/lib/discovery-products.json`. Outfits are paged and the first page deliberately includes options across the available price range within the shopper's budget. Search retains only results needed for the requested page, but still scans eligible combinations on each request. A modest initial feed can be checked this way; a full multi-brand catalog requires scheduled ingestion, indexed storage and database-backed matching. There is no automatic Awin refresh yet. Imported listings expire from the site after seven days unless refreshed and deployed. Baccus discovery products do not enter the size-based outfit matcher.

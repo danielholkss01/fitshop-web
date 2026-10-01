@@ -9,7 +9,8 @@
     "lint": "eslint",
     "import:partner": "node scripts/import-partner-feed.mjs",
     "import:awin": "node scripts/import-awin-feed.mjs",
-    "test:awin": "node --test test/awin-product.test.mjs",
+    "import:awin:discovery": "node scripts/import-awin-discovery.mjs",
+    "test:awin": "node --test test/awin-product.test.mjs test/awin-discovery-product.test.mjs",
     "test:outfits": "node --test test/outfit-search.test.mjs"
   },
   "dependencies": {
