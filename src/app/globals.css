@@ -97,6 +97,30 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
 .outfit-total strong { font-size: 23px; }
 .demo-note { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 26px 0 0; max-width: 700px; }
 .more-looks { text-align: center; margin-top: 31px; }
+.real-products-promo { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 72px 6%; border-top: 1px solid var(--line); }
+.real-products-promo h2, .shop-intro h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -.055em; }
+.real-products-promo h2 { font-size: clamp(34px, 4vw, 56px); margin: 12px 0; }
+.real-products-promo p { max-width: 550px; color: var(--muted); line-height: 1.5; margin-bottom: 0; }
+.real-products-promo .button { flex-shrink: 0; }
+.shop-page { padding: 65px 6% 100px; min-height: 65vh; }
+.shop-intro { max-width: 750px; margin-bottom: 40px; }
+.shop-intro h1 { font-size: clamp(48px, 5vw, 76px); line-height: 1.05; margin: 16px 0; }
+.shop-intro p { color: var(--muted); font-size: 16px; line-height: 1.6; }
+.shop-filters { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 13px; background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 19px; }
+.shop-filters label { font-size: 12px; font-weight: 700; display: flex; flex-direction: column; gap: 8px; }
+.shop-filters input, .shop-filters select { width: 100%; height: 44px; border: 1px solid #cdd0c7; border-radius: 7px; background: #fff; color: var(--ink); padding: 0 12px; }
+.shop-count { color: var(--muted); font-size: 13px; margin: 24px 0 18px; }
+.shop-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.shop-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 11px; overflow: hidden; background: #fff; }
+.shop-image-link { display: block; aspect-ratio: 4 / 5; background: #f0f0eb; }
+.shop-image-link img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.shop-card-details { padding: 17px; display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 10px; }
+.shop-card-category { color: var(--accent); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; font-weight: 800; }
+.shop-card h2 { font-size: 15px; line-height: 1.35; margin: 0; }
+.shop-card strong { margin-top: auto; font-size: 17px; }
+.shop-card-details a { color: #a64527; text-decoration: underline; text-underline-offset: 3px; font-size: 12px; font-weight: 700; }
+.shop-disclosure { max-width: 850px; margin: 35px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.shop-no-results { background: #fff; border-radius: 12px; padding: 30px; }
 .empty-state { text-align: center; padding: 55px 20px; background: #fff; border-radius: 14px; }
 .empty-state > span { font-size: 38px; color: var(--accent); }
 .empty-state h3 { font: 32px Georgia, serif; margin: 14px 0; }
@@ -152,13 +176,15 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
   .art-card { width: 165px; height: 275px; }
   .art-bottom { left: 48%; }
   .outfit-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .shop-filters { grid-template-columns: repeat(2, 1fr); }
   .profile-page { grid-template-columns: 1fr 1.1fr; }
 }
 @media (max-width: 700px) {
   .site-header { height: 70px; padding: 0 5%; }
   .brand { font-size: 26px; }
   .site-header nav { gap: 12px; }
-  .site-header nav > a:first-child { display: none; }
+  .site-header nav a[href="#how-it-works"] { display: none; }
   .nav-profile { padding: 10px 13px; }
   .hero { display: flex; flex-direction: column; }
   .hero-copy { padding: 75px 6% 55px; }
@@ -179,6 +205,11 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
   .builder-action p { margin: 17px 0; font-size: 26px; }
   .sparkle { display: none; }
   .outfit-grid { grid-template-columns: 1fr; }
+  .real-products-promo { align-items: flex-start; flex-direction: column; padding: 55px 5%; }
+  .shop-page { padding: 50px 5% 70px; }
+  .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .shop-card-details { padding: 12px; }
+  .shop-filters { grid-template-columns: 1fr 1fr; padding: 12px; }
   .how-section { grid-template-columns: 1fr; gap: 30px; padding: 67px 5%; }
   .how-steps { grid-template-columns: 1fr; gap: 20px; }
   .how-steps h3 { margin: 10px 0 5px; }
@@ -194,4 +225,5 @@ h1 em, h2 em { color: var(--accent); font-weight: 400; }
   .fit-summary strong { font-size: 16px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .hero-note { display: none; }
+  .shop-grid { grid-template-columns: 1fr; }
 }

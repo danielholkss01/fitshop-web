@@ -86,6 +86,7 @@ export default function Home() {
       <header className="site-header">
         <Link href="/" className="brand" aria-label="Fit and Shop home">fit<span>&</span>shop<span className="brand-dot">.</span></Link>
         <nav aria-label="Main navigation">
+          <Link href="/shop">Shop</Link>
           <a href="#how-it-works">How it works</a>
           <Link href="/profile" className="nav-profile">Your fit <span aria-hidden="true">↗</span></Link>
         </nav>
@@ -223,6 +224,11 @@ export default function Home() {
             </p>
           </section>
         )}
+
+        <section className="real-products-promo">
+          <div><span className="eyebrow">REAL PARTNER PRODUCTS</span><h2>See what stores have now.</h2><p>Browse actual retailer photos and prices. Check your size with the store before buying.</p></div>
+          <Link href="/shop" className="button button-dark">Shop real pieces <span aria-hidden="true">↗</span></Link>
+        </section>
 
         <section id="how-it-works" className="how-section">
           <div><span className="eyebrow">A SIMPLER WAY TO SHOP</span><h2>Less scrolling.<br /><em>More wearing.</em></h2></div>
