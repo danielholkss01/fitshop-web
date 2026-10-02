@@ -16,7 +16,7 @@ jobs:
   refresh:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check feed configuration
         id: feed
@@ -63,7 +63,7 @@ jobs:
           }
           NODE
           curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
-            --retry 2 --connect-timeout 15 --max-time 180 --max-filesize 104857600 \
+            --retry 2 --retry-delay 300 --retry-max-time 1200 --connect-timeout 15 --max-time 180 --max-filesize 104857600 \
             --output "$RUNNER_TEMP/baccus.csv.gz" "$AWIN_BACCUS_FEED_URL"
           gzip -t "$RUNNER_TEMP/baccus.csv.gz"
 
