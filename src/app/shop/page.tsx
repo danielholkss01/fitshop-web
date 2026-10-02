@@ -24,19 +24,19 @@ export default function ShopPage() {
       </header>
       <main className="shop-page">
         <div className="shop-intro">
-          <span className="eyebrow">REAL PARTNER PRODUCTS</span>
-          <h1>Explore the pieces.</h1>
-          <p>Browse clothing from partner stores, with the retailer’s product photo and price. Choose your size on the retailer’s website before buying.</p>
+          <span className="eyebrow">STORE CATALOG</span>
+          <h1>Store products are unavailable.</h1>
+          <p>Our outfit builder still has sample looks for men and women. We’ll add store products here when an active partnership is in place.</p>
         </div>
         {products.length ? <ShopCatalog products={products} /> : (
           <div className="empty-state">
-            <h2>Partner products are being refreshed.</h2>
-            <p>We hide a feed after seven days until we have current prices and availability again.</p>
+            <h2>No store products right now.</h2>
+            <p>Explore sample outfits while we work on new retailer partnerships.</p>
             <Link className="button button-dark" href="/">Explore sample outfits <span aria-hidden="true">↗</span></Link>
           </div>
         )}
       </main>
-      <footer className="site-footer"><Link href="/" className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></Link><span>Outfits, without the overthinking.</span><span>Partner links may earn a commission.</span></footer>
+      <footer className="site-footer"><Link href="/" className="brand">fit<span>&</span>shop<span className="brand-dot">.</span></Link><span>Outfits, without the overthinking.</span><span>Early product demo</span></footer>
     </div>
   );
 }

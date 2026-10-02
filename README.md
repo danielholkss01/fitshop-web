@@ -23,6 +23,6 @@ Open http://localhost:3000. No API URL or account is required. The site uses its
 
 See [the partner feed guide](docs/partner-feed.md) for the CSV format and import command. When current, approved partner products can form a complete outfit for the shopper's size and budget, the site shows their images and links to the retailers. Otherwise it displays the clearly labelled sample catalogue.
 
-An [Awin feed adapter](docs/awin-feed.md) imports authorised fashion feeds in legacy CSV or enhanced JSONL format. The `/shop` page displays current, approved Baccus products with retailer photos, prices and tracked links. A daily Baccus refresh is ready once its private download URL is added as a GitHub repository secret. These products have no verified size availability and stay out of size-matched outfit recommendations.
+The [Awin feed adapter](docs/awin-feed.md) is inactive. The Awin publisher account was closed on 2026-10-02, so the daily Baccus refresh was removed and its products and tracked links were cleared from `/shop`. The outfit builder continues to use labelled sample looks. Only add new partner products after the relevant account and programme authorisations are active.
 
 The separate `fitshop-api` repository remains an earlier API prototype. The web app generates outfits on its own server so it works before that service is deployed.
